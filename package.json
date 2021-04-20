@@ -1,0 +1,29 @@
+{
+  "name": "larryne-melh-music",
+  "version": "1.0.0",
+  "description": "\"A React PWA with GraphQL with Node and express-apollo-server\"",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:dev": "nodemon server.js",
+    "lint:fix": "eslint --fix .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.metropolia.fi/tamanjic/larryne-melh-music.git"
+  },
+  "author": "Tamanji Che",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.24.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.23.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql-constraint-directive": "^2.1.1",
+    "mongoose": "^5.12.5"
+  }
+}
