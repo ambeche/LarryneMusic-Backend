@@ -9,20 +9,19 @@ const commentSchema = new Schema({
   author: {type: Schema.Types.ObjectId, ref: 'User'},
   // Comment can have comments
   comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
-  commentedItems: [
+  // items commented on, Product or another comment
+  commentedProduct: [
     {
       type: Schema.Types.ObjectId,
-      // checks the Collection to be referenced from the path 'itemType'
-      // using mongoose dynamic referencing
-      refPath: 'itemType',
+      ref: 'Product',
     },
   ],
-  itemType: {
-    // specifies the item commented on
-    type: String,
-    required: true,
-    enum: ['Product', 'Comment'],
-  },
+  commentedComment: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 });
 
 export default mongoose.model('Comment', commentSchema);

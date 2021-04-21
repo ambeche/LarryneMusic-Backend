@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
-  cloudinaryID: String, // public_id from Cloudinary service
+  cloudinaryId: String, // public_id from Cloudinary service
   url: {type: String, required: true},
   mimetype: {type: String, required: true},
   filename: String,

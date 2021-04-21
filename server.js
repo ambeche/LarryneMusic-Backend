@@ -24,6 +24,6 @@ import mongoDB from './db/mongoDB.js';
       );
     });
   } catch (e) {
-    console.error(`server error: ${e.message}`);
+    console.error(`server error: ${e}`);
   }
 })();

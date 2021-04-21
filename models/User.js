@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   email: {type: String, unique: true},
   password: {type: String, required: true},
-  fullName: {type: String, required: true},
+  fullname: {type: String, required: true},
   role: {type: String, enum: ['fan', 'admin'], default: 'fan'},
   subscribed: Boolean,
   shippingAddress: {
@@ -19,19 +19,18 @@ const userSchema = new Schema({
   profileImage: {type: Schema.Types.ObjectId, ref: 'Product'},
   orders: [{type: Schema.Types.ObjectId, ref: 'Order'}],
   comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
-  liked: [
+  likedProduct: [
     {
       type: Schema.Types.ObjectId,
-      // checks the Collection to be referenced from the path 'itemType'
-      refPath: 'itemLike',
+      ref: 'Product',
     },
   ],
-  itemType: {
-    // specifies the item that was liked
-    type: String,
-    required: true,
-    enum: ['Product', 'Comment'],
-  },
+  likedComments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 });
 
 export default mongoose.model('User', userSchema);
