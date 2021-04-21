@@ -1,6 +1,5 @@
 'use strict';
-export default {
-  Query: {
-    _: () => true,
-  },
-};
+
+import userResolver from './userResolver.js';
+
+export default [userResolver];
