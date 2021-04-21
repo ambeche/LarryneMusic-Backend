@@ -25,5 +25,10 @@
     "express": "^4.17.1",
     "graphql-constraint-directive": "^2.1.1",
     "mongoose": "^5.12.5"
+  },
+  "type": "module",
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none"
   }
 }

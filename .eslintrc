@@ -17,8 +17,8 @@
             "ClassDeclaration": false,
             "ArrowFunctionExpression": false
         }
-    }]
-
+    }],
+    "quotes": ["error", "single"]
   },
   "env": {
     "node": true
