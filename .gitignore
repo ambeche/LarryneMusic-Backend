@@ -125,3 +125,5 @@ chargemap/
 ###
 ssl-key.pem
 ssl-cert.pem
+#### project issues and solutions
+bugs-fixes.txt
