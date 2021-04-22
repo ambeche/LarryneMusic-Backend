@@ -15,7 +15,7 @@ export default {
         };
         const newUser = new User(userWithHash);
         const result = await newUser.save();
-        //delete result.passwordHash // protect user's password
+        delete result.passwordHash // protect user's password
         console.log('new user', result);
         return result;
       } catch (err) {

@@ -18,7 +18,6 @@ export default gql`
       description: String!
       tag: String!
       priority: Int
-      storeInfo: StoreInfoInput
     ): Product
 
     modifyProduct(

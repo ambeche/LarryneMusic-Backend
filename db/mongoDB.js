@@ -1,12 +1,10 @@
 'use strict';
-import env from 'dotenv';
+import config from '../utils/config.js';
 import mongoose from 'mongoose';
-
-env.config();
 
 (async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(config.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,

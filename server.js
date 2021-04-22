@@ -1,6 +1,5 @@
 'use strict';
-import env from 'dotenv';
-env.config();
+import config from './utils/config.js';
 import { ApolloServer } from 'apollo-server-express';
 import schemas from './schemas/index.js';
 import resolvers from './resolvers/index.js';
@@ -19,8 +18,8 @@ import mongoDB from './db/mongoDB.js';
     server.applyMiddleware({ app, path: '/graphql' });
 
     mongoDB.on('connected', () => {
-      app.listen(process.env.PORT, () =>
-        console.log(`server url: http://localhost:${process.env.PORT}/graphql`)
+      app.listen(config.PORT, () =>
+        console.log(`server url: http://localhost:${config.PORT}/graphql`)
       );
     });
   } catch (e) {
