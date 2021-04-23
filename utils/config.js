@@ -20,4 +20,4 @@ export default {
   CLOUDINARY_API_SECRET,
   CLOUDINARY_NAME,
   CLOUDINARY_URL,
-}
+};

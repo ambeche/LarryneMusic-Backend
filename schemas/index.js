@@ -23,5 +23,5 @@ export default [
   commentSchema,
   userSchema,
   addressSchema,
-  fileUploadSchema
+  fileUploadSchema,
 ];
