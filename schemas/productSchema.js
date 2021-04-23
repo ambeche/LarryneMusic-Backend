@@ -9,17 +9,6 @@ export default gql`
   }
 
   extend type Mutation {
-    addProduct(
-      cloudinaryId: String!
-      url: String!
-      mimetype: String
-      filename: String
-      title: String!
-      description: String!
-      tag: String!
-      priority: Int
-    ): Product
-
     modifyProduct(
       productId: ID!
       cloudinaryId: String
@@ -38,10 +27,7 @@ export default gql`
 
   type Product {
     id: ID
-    cloudinaryId: String
-    url: String!
-    mimetype: String
-    filename: String
+    image: Image
     title: String
     description: String
     tag: String
@@ -59,6 +45,14 @@ export default gql`
     orderOrPreorder: String
     orders: [Order]
     deliveryType: String
+  }
+
+  type Image {
+    publicId: String
+    url: String!
+    mimetype: String
+    filename: String
+    responsiveBreakpoints: [String!]
   }
 
   input StoreInfoInput {
