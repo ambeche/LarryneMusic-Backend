@@ -47,19 +47,19 @@ export default gql`
     deliveryType: String
   }
 
-  type Image {
-    publicId: String
-    url: String!
-    mimetype: String
-    filename: String
-    responsiveBreakpoints: [String!]
-  }
-
   input StoreInfoInput {
     price: Int!
     availability: Boolean!
     quantitySold: Int
     orderOrPreorder: String!
     deliveryType: String!
+  }
+
+  type Image {
+    publicId: String
+    url: String
+    mimetype: String
+    filename: String
+    responsiveBreakpoints: [String]
   }
 `;

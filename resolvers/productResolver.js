@@ -18,7 +18,7 @@ export default {
        console.log(`files: `, uploadResponse);
        console.log(`file1: `, uploadResponse[0].responsive_breakpoints[0].breakpoints);
 
-        return  [{public_id: uploadResponse[2].public_id}] ;
+        return  [{filename: 'all', url: 'lllurrururu'}] ;
       } catch (err) {
         console.log(`upload error: ${err.message}`);
         throw new Error(err);

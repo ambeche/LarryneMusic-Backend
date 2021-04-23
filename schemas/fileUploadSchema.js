@@ -8,11 +8,10 @@ export default gql`
   }
 
   type FileOfProduct {
-    cloudinaryId: String
-    public_id: String
+    publicId: String
     url: String
     mimetype: String
     filename: String
-    encoding: String
+    responsiveBreakpoints: [String]
   }
 `;
