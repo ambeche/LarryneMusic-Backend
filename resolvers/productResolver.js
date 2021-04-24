@@ -4,6 +4,7 @@ import Product from '../models/Product.js';
 import Comment from '../models/Comment.js';
 import { uploadToCloudinaryAndMongoDB } from '../utils/cloudinary.js';
 import User from '../models/User.js';
+import {findAndPopulateProduct} from '../resolvers/resolverHelpers.js';
 
 export default {
   Mutation: {
@@ -67,23 +68,51 @@ export default {
         // and the product id is removed from the asociated author of the product.
         if (pdtToDelete._id) {
           // delete accociated comments
-          await Promise.all(pdtToDelete.comments.map( id => {
-            Comment.findByIdAndDelete(id);
-          }))
+          await Promise.all(
+            pdtToDelete.comments.map((id) => {
+              Comment.findByIdAndDelete(id);
+            })
+          );
 
           // dissociate author from deleted product and update User
           const author = await User.findById(pdtToDelete.owner);
-          author.likedProducts = author.likedProducts.filter(pdt => String( pdt) !== String(pdtToDelete._id));
+          author.likedProducts = author.likedProducts.filter(
+            (pdt) => String(pdt) !== String(pdtToDelete._id)
+          );
           await author.save();
 
+          await Product.findByIdAndDelete(args.productId);
 
-          await Product.findByIdAndDelete( args.productId );
-
-          return `Successfully deleted ${pdtToDelete.title} with all its accociated likes and comments`
+          return `Successfully deleted ${pdtToDelete.title} with all its accociated likes and comments`;
         }
-        
       } catch (e) {
         console.log(`modify pdt error: ${e.message}`);
+      }
+    }
+  },
+
+  Query: {
+    getProducts: async (root, args) => {
+      // returned products are filtered and/or sorted and limited based on query params passed.
+    
+      try {
+        if (args.tag) {
+           return await findAndPopulateProduct({ tag: args.tag }, args.sortby, args.max);
+        } else if (args.priority)
+          return await findAndPopulateProduct({ priority: args.priority }, args.sortby, args.max);
+    
+
+        return findAndPopulateProduct({}, args.sortby, args.max);
+      } catch (e) {
+        console.log(`get pdt error: ${e.message}`);
+      }
+    },
+    getProduct: async (root, args) => {
+      // query product by id
+      try {
+         return findAndPopulateProduct({_id: args.id});
+      } catch (e) {
+        console.log(`get pdt error: ${e.message}`);
       }
     }
   }
