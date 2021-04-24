@@ -11,15 +11,12 @@ export default gql`
   extend type Mutation {
     modifyProduct(
       productId: ID!
-      cloudinaryId: String
-      url: String
-      mimetype: String
-      filename: String
       title: String!
-      description: String
+      description: String!
       tag: String
       priority: Int
       storeInfo: StoreInfoInput
+      likes: Int
     ): Product
 
     deleteProduct(productId: ID!): String
@@ -39,12 +36,12 @@ export default gql`
   }
 
   type StoreInfo {
-    price: Int
+    price: Int!
     availability: Boolean
     quantitySold: Int
-    orderOrPreorder: String
+    orderOrPreorder: String!
     orders: [Order]
-    deliveryType: String
+    deliveryType: String!
   }
 
   input StoreInfoInput {
