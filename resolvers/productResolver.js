@@ -1,7 +1,6 @@
 'use strict';
 
-import Product from '../models/Product.js';
-import { uploadToCloudinary} from '../utils/cloudinary.js';
+import { uploadToCloudinaryAndMongoDB } from '../utils/cloudinary.js';
 
 export default {
   Mutation: {
@@ -10,15 +9,20 @@ export default {
       try {
         const streamedFiles = await Promise.all(files);
 
-       const uploadResponse = await Promise.all ( streamedFiles.map( file => {
-        // streams file data to cloud storage and returns url to the file; the url is then saved to mongoDB
-         return uploadToCloudinary(file.createReadStream, file.filename);
-       }));
-        
-       console.log(`files: `, uploadResponse);
-       console.log(`file1: `, uploadResponse[0].responsive_breakpoints[0].breakpoints);
+        const uploadResponse = await Promise.all(
+          streamedFiles.map((file) => {
+            // streams file data to cloud storage and return file url
+            // a new produt is created and saved in mongoDB with the returned file data
+            return uploadToCloudinaryAndMongoDB(file.createReadStream, file.filename, file.mimetype);
+          })
+        );
 
-        return  [{filename: 'all', url: 'lllurrururu'}] ;
+        console.log(`files: `, uploadResponse)
+
+        return uploadResponse.map(pdtImage => {
+          return {...pdtImage.image, id: pdtImage._id}
+        })
+
       } catch (err) {
         console.log(`upload error: ${err.message}`);
         throw new Error(err);

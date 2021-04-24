@@ -8,6 +8,7 @@ export default gql`
   }
 
   type FileOfProduct {
+    id: ID
     publicId: String
     url: String
     mimetype: String

@@ -1,6 +1,7 @@
 'use strict';
 import config from '../utils/config.js';
 import { v2 as cloudinary, v2 } from 'cloudinary';
+import Product from '../models/Product.js';
 import path from 'path';
 
 v2.config({
@@ -9,8 +10,9 @@ v2.config({
   api_secret: config.CLOUDINARY_API_SECRET,
 });
 
-const uploadToCloudinary = (createReadStream, filename) => {
+const uploadToCloudinaryAndMongoDB = (createReadStream, filename, mimetype) => {
   return new Promise((resolve, reject) => {
+    // creates an upload stream to Cloudinary storage
     const cloudinaryUploadStream = cloudinary.uploader.upload_stream(
         {
           resource_type: 'auto',
@@ -32,17 +34,32 @@ const uploadToCloudinary = (createReadStream, filename) => {
           ],
         },
         (error, result) => {
-          console.log('streaming', result);
+          console.log(
+              'streaming', result.responsive_breakpoints[0].breakpoints);
           if (error) {
+            console.log('file upload error', error);
             reject(error);
-            console.log('file error', error);
           }
-          resolve(result);
+          // response from Cloudinary API is then saved in db as Product.image
+          const imageToMongoDb = new Product({
+            image: {
+              publicId: result.public_id,
+              url: result.secure_url,
+              responsiveBreakpoints: result.responsive_breakpoints[0]
+                  .breakpoints
+                  .map(
+                      (img) => img.secure_url
+                  ),
+              filename,
+              mimetype,
+            },
+          }).save();
+          resolve(imageToMongoDb);
         }
     );
-
+    // pipes the files stream to Cloudinary Storage
     createReadStream().pipe(cloudinaryUploadStream);
   });
 };
 
-export { cloudinary, uploadToCloudinary };
+export { cloudinary, uploadToCloudinaryAndMongoDB };
