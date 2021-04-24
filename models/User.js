@@ -19,7 +19,7 @@ const userSchema = new Schema({
   profileImage: {type: Schema.Types.ObjectId, ref: 'Product'},
   orders: [{type: Schema.Types.ObjectId, ref: 'Order'}],
   comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
-  likedProduct: [
+  likedProducts: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Product',
