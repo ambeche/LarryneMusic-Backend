@@ -30,10 +30,10 @@ const findSortAndPopulateComment = async (filter, sort) => {
 
   if (filter._id)
     return await Comment.findById(filter)
+      .populate('commentedComments')
       .populate('author')
       .populate('commentedProducts')
-      .populate('comments')
-      .populate('commentedComments');
+      .populate('comments');
 
   return await Comment.find(filter)
     .populate('author')

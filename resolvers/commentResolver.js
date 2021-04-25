@@ -4,8 +4,7 @@ import Comment from '../models/Comment.js';
 import {
   findSortAndPopulateProduct,
   findByIdAndPopulateUser,
-  findSortAndPopulateComment,
-  toDateString
+  findSortAndPopulateComment
 } from '../resolvers/resolverHelpers.js';
 
 export default {
@@ -21,37 +20,30 @@ export default {
           author: '6084fa684223de1bc44216ec'
         });
         const createdComment = await newComment.save();
+
         // date property is converted to string before returned as graphql schema type has no Date
-        const createdAt = toDateString(createdComment.createdAt);
         const cAuthor = await findByIdAndPopulateUser(
           '6084fa684223de1bc44216ec'
         );
+        createdComment.author = cAuthor;
         // the populated path is determined by the kind of item that was commented
         if (commentedItem.commentedProductId) {
           const pdt = await findSortAndPopulateProduct({
             _id: commentedItem.commentedProductId
           });
+          createdComment.commentedProducts = [pdt];
 
-          console.log('cmt', createdComment);
-          return {
-            content: createdComment.content,
-            commentedProducts: [pdt],
-            author: cAuthor,
-            createdAt: createdAt,
-            id: createdComment._id,
-          };
+          return createdComment;
         }
 
         const comment = await findSortAndPopulateComment({
           _id: commentedItem.commentedCommentId
         });
-        return {
-          content: createdComment.content,
-          commentedComments: [comment],
-          author: cAuthor,
-          createdAt: createdAt,
-          id: createdComment._id,
-        };
+
+        createdComment.commentedComments = [comment];
+        console.log('cmt', createdComment);
+
+        return createdComment;
       } catch (err) {
         console.log(`add comment error: ${err.message}`);
         throw new Error(err);
@@ -59,20 +51,18 @@ export default {
     },
 
     modifyComment: async (root, args) => {
-
       try {
-      
-        const toBeUpdated = await findSortAndPopulateComment({_id: args.id});
-       
+        const toBeUpdated = await findSortAndPopulateComment({ _id: args.id });
+        // verifies document's existence before update is applied
+        if (toBeUpdated) {
           // updates applied
           toBeUpdated.likes = args.likes;
           toBeUpdated.content = args.content;
-          await toBeUpdated.save()
-          console.log('update', toBeUpdated)
-        
-          return toBeUpdated
-        
+          await toBeUpdated.save();
+          // console.log('update', toBeUpdated);
 
+          return toBeUpdated;
+        }
       } catch (err) {
         console.log(`modify comment error: ${err.message}`);
         throw new Error(err);
