@@ -11,7 +11,7 @@ export default gql`
   extend type Mutation {
     createComment(content: String!, commentedItem: CommentItemInput!): Comment
 
-    modifyComment(id: ID!, content: String, likes: Int): Comment
+    modifyComment(id: ID!, content: String, likes: Int): Comment!
 
     deleteComment(id: ID!): String
   }
@@ -21,7 +21,8 @@ export default gql`
     content: String
     likes: Int
     author: User
-    createdAt: String!
+    createdAt: String
+    updatedAt: String
     comments: [Comment]
     commentedProducts: [Product]
     commentedComments: [Comment]

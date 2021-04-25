@@ -29,20 +29,17 @@ const findSortAndPopulateComment = async (filter, sort) => {
   const sortby = sort ? sort : '-createdAt';
 
   if (filter._id)
-    return await Comment.findById(filter).populate({
-      path: 'author',
-      path: 'comments',
-      path: 'commentedProducts',
-      path: 'commentedComments'
-    });
+    return await Comment.findById(filter)
+      .populate('author')
+      .populate('commentedProducts')
+      .populate('comments')
+      .populate('commentedComments');
 
-  return await Comment.find({ ...filter })
-    .populate({
-      path: 'author',
-      path: 'comments',
-      path: 'commentedProducts',
-      path: 'commentedComments'
-    })
+  return await Comment.find(filter)
+    .populate('author')
+    .populate('commentedProducts')
+    .populate('comments')
+    .populate('commentedComments')
     .sort(`${sortby}`);
 };
 
@@ -62,5 +59,5 @@ export {
   findSortAndPopulateProduct,
   findSortAndPopulateComment,
   findByIdAndPopulateUser,
-  toDateString,
+  toDateString
 };
