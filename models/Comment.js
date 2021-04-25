@@ -10,18 +10,20 @@ const commentSchema = new Schema({
   // Comment can have comments
   comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
   // items commented on, Product or another comment
-  commentedProduct: [
+  commentedProducts: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Product',
     },
   ],
-  commentedComment: [
+  commentedComments: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Comment',
     },
   ],
-});
+},
+{ timestamps: true}
+);
 
 export default mongoose.model('Comment', commentSchema);

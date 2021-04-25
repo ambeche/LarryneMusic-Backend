@@ -4,8 +4,8 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    orders: [Order]
-    order(orderId: ID!): Order
+    Orders: [Order]
+    Order(orderId: ID!): Order
   }
 
   extend type Mutation {
@@ -14,8 +14,7 @@ export default gql`
       deliveryStatus: Boolean
       quantity: Int
       shippingAddress: ShippingAddressInput
-      orderDate: Int
-      deliveryDate: Int
+      deliveryDate: String
       estimatedDateOfDelivery: Int
       transactionStatus: String
       shippingDetails: String
@@ -34,8 +33,6 @@ export default gql`
       transactionStatus: String
       shippingDetails: String
     ): Order
-
-    deleteOrder(orderId: ID!): String
   }
 
   type Order {
@@ -44,9 +41,9 @@ export default gql`
     deliveryStatus: Boolean
     quantity: Int
     shippingAddress: ShippingAddress
-    orderDate: Int
-    deliveryDate: Int
-    estimatedDateOfDelivery: Int
+    orderDate: String
+    deliveryDate: String
+    estimatedDateOfDelivery: String
     transactionStatus: String
     shippingDetails: String
     orderedBy: User

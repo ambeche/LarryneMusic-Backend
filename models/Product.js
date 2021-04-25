@@ -21,6 +21,7 @@ const productSchema = new Schema({
   },
   // determines what product is placed at the top of the page
   priority: { type: Number, enum: [0, 1, 2], default: 2},
+  deleted: {type: Boolean, default: false},
   storeInfo: {
     price: Number,
     availability: Boolean,

@@ -14,13 +14,14 @@ const orderSchema = new Schema({
     region: String,
     country: String,
   },
-  orderDate: Date,
   deliveryDate: Date,
   estimatedDateOfDelivery: Date,
   transactionStatus: {type: String, enum: ['complete', 'processing']},
   shippingDetails: String,
   orderedBy: {type: Schema.Types.ObjectId, ref: 'User'},
   products: [{type: Schema.Types.ObjectId, ref: 'Product'}],
-});
+},
+{ timestamps: { createdAt: 'orderedDate' } }
+);
 
 export default mongoose.model('Order', orderSchema);

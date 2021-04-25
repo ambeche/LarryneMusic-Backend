@@ -4,13 +4,8 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    getProducts(
-      tag: String
-      priority: Int
-      sortby: String
-      max: Int
-    ): [Product!]
-    getProduct(id: ID!): Product
+    products(tag: String, priority: Int, sortby: String, max: Int): [Product!]
+    product(id: ID!): Product
   }
 
   extend type Mutation {

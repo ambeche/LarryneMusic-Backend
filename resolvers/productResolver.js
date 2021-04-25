@@ -4,7 +4,7 @@ import Product from '../models/Product.js';
 import Comment from '../models/Comment.js';
 import { uploadToCloudinaryAndMongoDB } from '../utils/cloudinary.js';
 import User from '../models/User.js';
-import {findAndPopulateProduct} from '../resolvers/resolverHelpers.js';
+import {findSortAndPopulateProduct} from '../resolvers/resolverHelpers.js';
 
 export default {
   Mutation: {
@@ -92,25 +92,25 @@ export default {
   },
 
   Query: {
-    getProducts: async (root, args) => {
+    products: async (root, args) => {
       // returned products are filtered and/or sorted and limited based on query params passed.
     
       try {
         if (args.tag) {
-           return await findAndPopulateProduct({ tag: args.tag }, args.sortby, args.max);
+           return await findSortAndPopulateProduct({ tag: args.tag }, args.sortby, args.max);
         } else if (args.priority)
-          return await findAndPopulateProduct({ priority: args.priority }, args.sortby, args.max);
+          return await findSortAndPopulateProduct({ priority: args.priority }, args.sortby, args.max);
     
 
-        return findAndPopulateProduct({}, args.sortby, args.max);
+        return findSortAndPopulateProduct({}, args.sortby, args.max);
       } catch (e) {
         console.log(`get pdt error: ${e.message}`);
       }
     },
-    getProduct: async (root, args) => {
+    product: async (root, args) => {
       // query product by id
       try {
-         return findAndPopulateProduct({_id: args.id});
+         return findSortAndPopulateProduct({_id: args.id});
       } catch (e) {
         console.log(`get pdt error: ${e.message}`);
       }
