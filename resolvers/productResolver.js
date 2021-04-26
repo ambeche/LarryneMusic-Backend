@@ -39,20 +39,16 @@ export default {
         const pdt = await Product.findById(args.id);
         // verify if product exist in db for the modification
         if (pdt._id) {
-          return await Product.findOneAndUpdate(
+          const updatedPdt = await Product.findOneAndUpdate(
             args.productId,
             { ...args },
             {
               new: true,
-              omitUndefined: true,
-              populate: {
-                path: 'owner',
-                path: 'comments',
-                path: 'storeInfo',
-                populate: { path: 'orders' }
-              }
+              omitUndefined: true
             }
           );
+          // populate associated fields and return pdt
+          return Product.findSortAndPopulateProduct({ _id: updatedPdt._id });
         }
       } catch (e) {
         console.log(`modify pdt error: ${e.message}`);

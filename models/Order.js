@@ -15,6 +15,7 @@ const orderSchema = new Schema(
       region: String,
       country: String
     },
+    shippingDetails: String,
     deliveryDate: {
       type: Date,
       set: (date) => new Date(parseInt(date))

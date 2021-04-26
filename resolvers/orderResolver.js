@@ -28,16 +28,36 @@ export default {
                 const pdtDb = await Product.findById(item.product);
                 return pdtDb.storeInfo.price * item.quantity;
               })();
-              
+
         console.log('amt', totalAmount);
 
         // create and save order to db
-        const newOrder = await new Order({...args, totalAmount: totalAmount}).save()
+        const newOrder = await new Order({
+          ...args,
+          totalAmount: totalAmount
+        }).save();
 
         // query, populate and return newly created order
-        return  await Order.findSortAndPopulateOrder({_id: newOrder._id});
+        return await Order.findSortAndPopulateOrder({ _id: newOrder._id });
       } catch (err) {
         console.log(`create order error: ${err.message}`);
+        throw new Error(err);
+      }
+    },
+    modifyOrder: async (root, args) => {
+      try {
+        // find and update order
+        const updatedOrder = await Order.findOneAndUpdate(args.id, {...args}, {
+          new: true,
+          omitUndefined: true
+        });
+
+        console.log('updated order', updatedOrder);
+
+        // query, populate and return updated  Order
+        return await Order.findSortAndPopulateOrder({ _id: updatedOrder._id });
+      } catch (err) {
+        console.log(`modify order error: ${err.message}`);
         throw new Error(err);
       }
     }
