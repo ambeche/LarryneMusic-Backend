@@ -39,4 +39,26 @@ const productSchema = new Schema({
   likes: Number,
 });
 
+// arrow function was not used because it prevents the binding of 'this'
+productSchema.statics.findSortAndPopulateProduct = async function (filter, sort, max) {
+  // Product model helper function for finding product by params, populating and sorting them.
+  const sortby = sort ? sort : '';
+  const limit = max && max < 11 ? max : max > 10 ? 10 : null;
+
+  if (filter._id)
+    return await this.findById(filter)
+      .populate({ path: 'author', select: '-_id -password -email' }) // populates but protects users id and password from circulation
+      .populate('commentedProducts')
+      .populate('comments')
+      .populate('commentedComments');
+
+  return await this.find({ ...filter })
+    .populate({ path: 'author', select: '-_id -password -email' })
+    .populate('commentedProducts')
+    .populate('comments')
+    .populate('commentedComments')
+    .sort(`${sortby}`)
+    .limit(limit);
+};
+
 export default mongoose.model('Product', productSchema);

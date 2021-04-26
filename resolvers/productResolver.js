@@ -4,7 +4,6 @@ import Product from '../models/Product.js';
 import Comment from '../models/Comment.js';
 import { uploadToCloudinaryAndMongoDB } from '../utils/cloudinary.js';
 import User from '../models/User.js';
-import { findSortAndPopulateProduct } from '../resolvers/resolverHelpers.js';
 
 export default {
   Mutation: {
@@ -93,23 +92,24 @@ export default {
 
   Query: {
     products: async (root, args) => {
-      // returned products are filtered and/or sorted and limited based on query params passed.
+      // returned products are filtered and/or sorted and limited based on query params passed
+      // using a custom instance method
 
       try {
         if (args.tag) {
-          return await findSortAndPopulateProduct(
+          return await Product.findSortAndPopulateProduct(
             { tag: args.tag },
             args.sortby,
             args.max
           );
         } else if (args.priority)
-          return await findSortAndPopulateProduct(
+          return await Product.findSortAndPopulateProduct(
             { priority: args.priority },
             args.sortby,
             args.max
           );
 
-        return findSortAndPopulateProduct({}, args.sortby, args.max);
+        return Product.findSortAndPopulateProduct({}, args.sortby, args.max);
       } catch (e) {
         console.log(`get pdt error: ${e.message}`);
       }
@@ -117,7 +117,7 @@ export default {
     product: async (root, args) => {
       // query product by id
       try {
-        return findSortAndPopulateProduct({ _id: args.id });
+        return Product.findSortAndPopulateProduct({ _id: args.id });
       } catch (e) {
         console.log(`get pdt error: ${e.message}`);
       }

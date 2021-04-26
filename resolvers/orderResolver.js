@@ -2,10 +2,6 @@
 
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
-import {
-  findSortAndPopulateOrder,
-  findSortAndPopulateProduct
-} from './resolverHelpers.js';
 
 export default {
   Mutation: {
@@ -39,7 +35,7 @@ export default {
         const newOrder = await new Order({...args, totalAmount: totalAmount}).save()
 
         // query, populate and return newly created order
-        return  await findSortAndPopulateOrder({_id: newOrder._id});
+        return  await Order.findSortAndPopulateOrder({_id: newOrder._id});
       } catch (err) {
         console.log(`create order error: ${err.message}`);
         throw new Error(err);

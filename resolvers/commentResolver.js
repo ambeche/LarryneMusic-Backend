@@ -2,10 +2,7 @@
 
 import Comment from '../models/Comment.js';
 import User from '../models/User.js';
-import {
-  findSortAndPopulateComment,
-  dateValidator
-} from '../resolvers/resolverHelpers.js';
+import { dateValidator } from '../resolvers/resolverHelpers.js';
 
 export default {
   Mutation: {
@@ -23,7 +20,7 @@ export default {
 
         // finds the newly created comment by id, populates all its associated fields
         // and excludes user's credentials from the returned value.
-        const resolvedComment = await findSortAndPopulateComment({
+        const resolvedComment = await Comment.findSortAndPopulateComment({
           _id: createdComment._id
         });
 
@@ -36,7 +33,9 @@ export default {
 
     modifyComment: async (root, args) => {
       try {
-        const toBeUpdated = await findSortAndPopulateComment({ _id: args.id });
+        const toBeUpdated = await Comment.findSortAndPopulateComment({
+          _id: args.id
+        });
         // verifies document's existence before update is applied
         if (toBeUpdated) {
           // updates applied
@@ -101,14 +100,14 @@ export default {
           const dateRange = dateValidator(args.dateRange);
 
           if (dateRange) {
-            return await findSortAndPopulateComment(
+            return await Comment.findSortAndPopulateComment(
               { createdAt: { $gte: dateRange.first, $lte: dateRange.last } },
               args.sortby
             );
           }
         }
 
-        return findSortAndPopulateComment({}, args.sortby);
+        return Comment.findSortAndPopulateComment({}, args.sortby);
       } catch (e) {
         console.log(`get cmts error: ${e.message}`);
       }
@@ -116,7 +115,7 @@ export default {
     comment: async (root, args) => {
       // query comment by id
       try {
-        return findSortAndPopulateComment({ _id: args.id });
+        return Comment.findSortAndPopulateComment({ _id: args.id });
       } catch (e) {
         console.log(`get cmt error: ${e.message}`);
       }
