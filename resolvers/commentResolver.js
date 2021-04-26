@@ -1,6 +1,7 @@
 'use strict';
 
 import Comment from '../models/Comment.js';
+import User from '../models/User.js';
 import { findSortAndPopulateComment } from '../resolvers/resolverHelpers.js';
 
 export default {
@@ -11,7 +12,7 @@ export default {
         console.log('cmt', content);
         const newComment = Comment({
           content,
-          commentedProducts: [commentedItem.commentedProductId],
+          commentedProducts: [commentedItem.commentedid],
           commentedComments: [commentedItem.commentedCommentId],
           author: '6084fa684223de1bc44216ec'
         });
@@ -48,6 +49,42 @@ export default {
         console.log(`modify comment error: ${err.message}`);
         throw new Error(err);
       }
+    },
+    deleteComment: async (root, args) => {
+      try {
+        const cmtToDelete = await Comment.findById(args.id);
+        const author = await User.findById(user.id);
+        // comment can only be deleted by it's authenticated author
+        // when a comment is deleted, all the comments and likes associated
+        // with it are deleted as well
+        // and the deleted comment id dissociated from products and users.
+        if (cmtToDelete._id && String(user.id) === String(cmtToDelete.author)) {
+          // delete associated comments
+          await Promise.all(
+            cmtToDelete.comments?.map((id) => {
+              Comment.findByIdAndDelete(id);
+            })
+          );
+
+          // remove deleted comment id from the associated authors comment lists
+          // and update User
+          author.comments = author.comments.filter(
+            (cmtId) => String(cmtId) !== String(cmtToDelete._id)
+          );
+        
+          author.likedComments = author.likedProducts?.filter(
+            (cmt) => String(cmt) !== String(cmtToDelete._id)
+          );
+          await author.save();
+
+          // delete the comment
+          await Comment.findByIdAndDelete(args.id);
+
+          return `comment deleted successfully!`;
+        }
+      } catch (e) {
+        console.log(`delete cmt error: ${e.message}`);
+      }
     }
-  }
+  },
 };

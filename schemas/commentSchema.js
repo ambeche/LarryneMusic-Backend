@@ -4,8 +4,8 @@ import {gql} from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    getComments: [Comment]
-    getComment(id: ID!): Comment
+    comments(dateRange: DateRangeInput, sortby: String): [Comment]
+    comment(id: ID!): Comment
   }
 
   extend type Mutation {
@@ -31,5 +31,10 @@ export default gql`
   input CommentItemInput {
     commentedProductId: ID
     commentedCommentId: ID
+  }
+
+  input DateRangeInput {
+    start: String!
+    end: String!
   }
 `;

@@ -37,7 +37,7 @@ export default {
     },
     modifyProduct: async (root, args) => {
       try {
-        const pdt = await Product.findById(args.productId);
+        const pdt = await Product.findById(args.id);
         // verify if product exist in db for the modification
         if (pdt._id) {
           return await Product.findOneAndUpdate(
@@ -62,7 +62,7 @@ export default {
 
     deleteProduct: async (root, args) => {
       try {
-        const pdtToDelete = await Product.findById(args.productId);
+        const pdtToDelete = await Product.findById(args.id);
         //  when a product is deleted, all the Comment and likes associated
         // with the product are deleted as well
         // and the product id is removed from the asociated author of the product.
@@ -76,7 +76,7 @@ export default {
 
           // dissociate author from deleted product and update User
           const author = await User.findById(pdtToDelete.owner);
-          author.likedProducts = author.likedProducts.filter(
+          author.likedProducts = author.likedProducts?.filter(
             (pdt) => String(pdt) !== String(pdtToDelete._id)
           );
           await author.save();
@@ -86,7 +86,7 @@ export default {
           return `Successfully deleted ${pdtToDelete.title} with all its accociated likes and comments`;
         }
       } catch (e) {
-        console.log(`modify pdt error: ${e.message}`);
+        console.log(`delete pdt error: ${e.message}`);
       }
     }
   },
