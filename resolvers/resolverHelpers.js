@@ -56,11 +56,21 @@ const findByIdAndPopulateUser = async (id, options) => {
     .populate('profileImage');
 };
 
-const toDateString = (date) => date.toString();
+const dateValidator = ({ earlier, later }) => {
+  const first = new Date(earlier);
+  const last = new Date(later);
+  if (
+    last.getTime() > first.getTime() &&
+    last.getTime() < new Date().getTime()
+  ) {
+    return { first, last };
+  }
+  return false;
+};
 
 export {
   findSortAndPopulateProduct,
   findSortAndPopulateComment,
   findByIdAndPopulateUser,
-  toDateString
+  dateValidator
 };

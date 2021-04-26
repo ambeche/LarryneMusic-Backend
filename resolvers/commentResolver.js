@@ -2,7 +2,10 @@
 
 import Comment from '../models/Comment.js';
 import User from '../models/User.js';
-import { findSortAndPopulateComment } from '../resolvers/resolverHelpers.js';
+import {
+  findSortAndPopulateComment,
+  dateValidator
+} from '../resolvers/resolverHelpers.js';
 
 export default {
   Mutation: {
@@ -71,7 +74,7 @@ export default {
           author.comments = author.comments.filter(
             (cmtId) => String(cmtId) !== String(cmtToDelete._id)
           );
-        
+
           author.likedComments = author.likedProducts?.filter(
             (cmt) => String(cmt) !== String(cmtToDelete._id)
           );
@@ -87,4 +90,36 @@ export default {
       }
     }
   },
+
+  Query: {
+    comments: async (root, args) => {
+      // returned comments are filtered by date range and/or sorted based on query params passed.
+      // defalult sorting is by date in decending order
+
+      try {
+        if (args.dateRange) {
+          const dateRange = dateValidator(args.dateRange);
+
+          if (dateRange) {
+            return await findSortAndPopulateComment(
+              { createdAt: { $gte: dateRange.first, $lte: dateRange.last } },
+              args.sortby
+            );
+          }
+        }
+
+        return findSortAndPopulateComment({}, args.sortby);
+      } catch (e) {
+        console.log(`get cmts error: ${e.message}`);
+      }
+    },
+    comment: async (root, args) => {
+      // query comment by id
+      try {
+        return findSortAndPopulateComment({ _id: args.id });
+      } catch (e) {
+        console.log(`get cmt error: ${e.message}`);
+      }
+    }
+  }
 };

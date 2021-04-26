@@ -34,7 +34,7 @@ export default gql`
   }
 
   input DateRangeInput {
-    start: String!
-    end: String!
+    earlier: String!
+    later: String!
   }
 `;
