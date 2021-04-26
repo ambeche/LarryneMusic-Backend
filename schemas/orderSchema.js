@@ -11,25 +11,22 @@ export default gql`
   extend type Mutation {
     createOrder(
       transactionType: String
-      deliveryStatus: Boolean
-      quantity: Int
+      delivered: Boolean
       shippingAddress: ShippingAddressInput
       deliveryDate: String
-      estimatedDateOfDelivery: Int
+      estimatedDateOfDelivery: String
       transactionStatus: String
-      shippingDetails: String
-      products: [ID]!
+      orderedProducts: [ItemTypeInput!]
       orderedBy: ID
     ): Order
 
     modifyOrder(
       OrderId: ID!
       transactionType: String
-      deliveryStatus: Boolean
-      quantity: Int
+      delivered: Boolean
       shippingAddress: ShippingAddressInput
       deliveryDate: Int
-      estimatedDateOfDelivery: Int
+      estimatedDateOfDelivery: String
       transactionStatus: String
       shippingDetails: String
     ): Order
@@ -38,8 +35,8 @@ export default gql`
   type Order {
     id: ID
     transactionType: String
-    deliveryStatus: Boolean
-    quantity: Int
+    delivered: Boolean
+    totalAmount: Int
     shippingAddress: ShippingAddress
     orderDate: String
     deliveryDate: String
@@ -47,6 +44,16 @@ export default gql`
     transactionStatus: String
     shippingDetails: String
     orderedBy: User
-    products: [Product]
+    orderedProducts: [ItemType]
+  }
+
+  type ItemType {
+    product: Product
+    quantity: Int
+  }
+
+  input ItemTypeInput {
+    product: ID
+    quantity: Int
   }
 `;

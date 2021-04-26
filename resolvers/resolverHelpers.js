@@ -2,6 +2,7 @@
 // biolerplates for db queries
 
 import Comment from '../models/Comment.js';
+import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 import User from '../models/User.js';
 
@@ -56,9 +57,31 @@ const findByIdAndPopulateUser = async (id, options) => {
     .populate('profileImage');
 };
 
+const findSortAndPopulateOrder = async (filter, sort) => {
+  // query and populate orders
+  const sortby = sort ? sort : '-createdAt';
+
+  if (filter._id)
+    return await Order.findById(filter)
+      .populate({ path: 'orderedBy', select: '-_id -password -email' })
+      .populate({
+        path: 'orderedProducts',
+        populate: [{ path: 'product' }]
+      });
+
+  return await Order.find(filter)
+    .populate({ path: 'orderedBy', select: '-_id -password -email' })
+    .populate({
+      path: 'orderedProducts',
+      populate: [{ path: 'product' }]
+    })
+    .sort(`${sortby}`);
+};
+
+// validate Date parameters
 const dateValidator = ({ earlier, later }) => {
-  const first = new Date(earlier);
-  const last = new Date(later);
+  const first = new Date(parseInt(earlier));
+  const last = new Date(parseInt(later));
   if (
     last.getTime() > first.getTime() &&
     last.getTime() < new Date().getTime()
@@ -72,5 +95,6 @@ export {
   findSortAndPopulateProduct,
   findSortAndPopulateComment,
   findByIdAndPopulateUser,
+  findSortAndPopulateOrder,
   dateValidator
 };
