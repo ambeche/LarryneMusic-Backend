@@ -6,12 +6,14 @@ import bcrypt from 'bcrypt';
 export default {
   Mutation: {
     registerUser: async (root, args) => {
+      const {email, password, fullname} = args.userInput;
       try {
         const salt = 12;
-        const passwordHash = await bcrypt.hash(args.password, salt);
+        const passwordHash = await bcrypt.hash(password, salt);
         const userWithHash = {
-          ...args,
-          password: passwordHash
+          email,
+          password: passwordHash,
+          fullname
         };
         const newUser = new User(userWithHash);
         const result = await newUser.save();

@@ -1,6 +1,7 @@
 'use strict';
 import config from './utils/config.js';
 import { ApolloServer } from 'apollo-server-express';
+import { constraintDirective } from 'graphql-constraint-directive';
 import schemas from './schemas/index.js';
 import resolvers from './resolvers/index.js';
 import express from 'express';
@@ -10,7 +11,8 @@ import mongoDB from './db/mongoDB.js';
   try {
     const server = new ApolloServer({
       typeDefs: schemas,
-      resolvers
+      resolvers,
+      schemaTransforms: [constraintDirective()]
     });
 
     const app = express();

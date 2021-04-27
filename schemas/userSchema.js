@@ -1,6 +1,6 @@
 'use strict';
 
-import {gql} from 'apollo-server-express';
+import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
@@ -9,7 +9,7 @@ export default gql`
   }
 
   extend type Mutation {
-    registerUser(email: String!, password: String!, fullname: String): User
+    registerUser(userInput: UserInput): User
 
     modifyUser(fullname: String, shippingAddress: ShippingAddressInput): User
   }
@@ -27,5 +27,11 @@ export default gql`
     likedProducts: [Product]
     likedComments: [Comment]
     token: String
+  }
+
+  input UserInput {
+    email: String! @constraint(format: "email")
+    password: String! @constraint(minLength: 8)
+    fullname: String!
   }
 `;
