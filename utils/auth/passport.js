@@ -30,6 +30,7 @@ passport.use(
         }
 
         const userWithoutPass = user.toObject();
+        delete userWithoutPass.role;
         delete userWithoutPass.password; // delete user's password for security
 
         return onComplete(null, userWithoutPass, {
@@ -53,12 +54,15 @@ passport.use(
     async (jwtPayload, onComplete) => {
       try {
         const user = await User.findById(jwtPayload._id);
-        console.log('jwt strategy', jwtPayload);
+        console.log('jwt strategy payload', jwtPayload);
         if (user === null) {
           return onComplete(null, false);
         }
-        delete user.password;
-        return onComplete(null, user);
+        const passLessUser = user.toObject();
+        delete passLessUser.password;
+        delete passLessUser.role;
+        console.log('jwt user', passLessUser);
+        return onComplete(null, passLessUser);
       } catch (err) {
         return onComplete(err);
       }

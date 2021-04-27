@@ -18,7 +18,6 @@ export default gql`
     id: ID
     email: String
     fullname: String
-    role: String
     subscribed: Boolean
     shippingAddress: ShippingAddress
     profileImage: String

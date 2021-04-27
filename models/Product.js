@@ -47,13 +47,13 @@ productSchema.statics.findSortAndPopulateProduct = async function (filter, sort,
 
   if (filter._id)
     return await this.findById(filter)
-      .populate({ path: 'author', select: '-_id -password -email' }) // populates but protects users id and password from circulation
+      .populate({ path: 'author', select: '-_id -password -email -role' }) // populates but protects users id and password from circulation
       .populate('commentedProducts')
       .populate('comments')
       .populate('commentedComments');
 
   return await this.find({ ...filter })
-    .populate({ path: 'author', select: '-_id -password -email' })
+    .populate({ path: 'author', select: '-_id -password -email -role' })
     .populate('commentedProducts')
     .populate('comments')
     .populate('commentedComments')

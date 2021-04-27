@@ -1,6 +1,15 @@
 'use strict';
 import { AuthenticationError } from 'apollo-server-errors';
+import User from '../models/User.js';
+import config from '../utils/config.js';
 
+const verifyAdminAccess = async (user) => {
+  const admin = await User.findById(user._id);
+  if (admin && admin.role === config.ROLE_ADMIN){
+    return true;
+  }
+  return false;
+}
 const verifyUser = (user) => {
   // throws error if user is not authenticated
   if (!user) {
@@ -24,4 +33,4 @@ const dateValidator = ({ earlier, later }, date) => {
   return false;
 };
 
-export { dateValidator, verifyUser };
+export { dateValidator, verifyUser, verifyAdminAccess };

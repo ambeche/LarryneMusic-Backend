@@ -19,9 +19,10 @@ export default {
         };
         const newUser = new User(userWithHash);
         const result = await newUser.save();
-        delete result.passwordHash; // protect user's password
-        console.log('new user', result);
-        return result;
+        const userobj = result.toObject();
+        delete userobj.password; // protect user's password
+
+        return userobj;
       } catch (err) {
         console.log(`add user error: ${err.message}`);
         throw new Error(err);
@@ -32,8 +33,8 @@ export default {
   Query: {
     user: async (parent, args, { user }) => {
       // a User's account can only be accessed by the authenticated user himself/herself
-      console.log('userResolver', user);
       if (user) {
+        console.log('userResolver', user);
         const userInDB = await User.findById(user._id);
         delete userInDB.password;
         console.log('withoutPass', userInDB);
@@ -41,7 +42,7 @@ export default {
       }
       throw new AuthenticationError('Authorization Denied!');
     },
-    
+
     login: async (parent, args, { req, res }) => {
       // injecting username and password to req.body for passport
       console.log(args);
