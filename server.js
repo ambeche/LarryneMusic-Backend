@@ -1,19 +1,25 @@
 'use strict';
 import config from './utils/config.js';
 import { ApolloServer } from 'apollo-server-express';
-import { constraintDirective } from 'graphql-constraint-directive';
 import helmet from 'helmet';
 import cors from 'cors';
 import schemas from './schemas/index.js';
 import resolvers from './resolvers/index.js';
 import express from 'express';
+
 import mongoDB from './db/mongoDB.js';
+import { constraintDirective } from 'graphql-constraint-directive';
+import auth from './utils/auth/auth.js';
 
 (async () => {
   try {
     const server = new ApolloServer({
       typeDefs: schemas,
       resolvers,
+      context: async ({req, res}) => {
+        const user = await auth.verifyAuth(req, res);
+        return {req, res, user};
+     },
       schemaTransforms: [constraintDirective()]
     });
 
