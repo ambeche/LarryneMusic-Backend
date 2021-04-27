@@ -73,7 +73,7 @@ export default {
           //  when a product is deleted, all the Comment and likes associated
           // with the product are deleted as well
           // and the product id is removed from the asociated author of the product.
-          if (pdtToDelete._id) {
+          if (pdtToDelete?._id) {
             // delete accociated comments
             await Promise.all(
               pdtToDelete.comments.map((id) => {
@@ -96,7 +96,6 @@ export default {
           }
         } catch (e) {
           console.log(`delete pdt error: ${e.message}`);
-
         }
       }
       throw new AuthenticationError('Not Authorized; Access Denied!');

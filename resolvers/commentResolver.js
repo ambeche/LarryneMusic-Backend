@@ -2,11 +2,14 @@
 
 import Comment from '../models/Comment.js';
 import User from '../models/User.js';
-import { dateValidator } from '../resolvers/resolverHelpers.js';
+import { dateValidator, verifyUser } from '../resolvers/resolverHelpers.js';
+import { AuthenticationError } from 'apollo-server-express';
 
 export default {
   Mutation: {
-    createComment: async (root, args) => {
+    // only authenticated users can create or modify comments
+    createComment: async (root, args, { user }) => {
+      verifyUser(user); // throws authentication error if user is not authenticated
       try {
         const { content, commentedItem } = args;
         console.log('cmt', content);
@@ -14,7 +17,7 @@ export default {
           content,
           commentedProducts: [commentedItem.commentedid],
           commentedComments: [commentedItem.commentedCommentId],
-          author: '6084fa684223de1bc44216ec'
+          author: user._id
         });
         const createdComment = await newComment.save();
 
@@ -27,40 +30,45 @@ export default {
         return resolvedComment;
       } catch (err) {
         console.log(`add comment error: ${err.message}`);
-        throw new Error(err);
       }
     },
 
-    modifyComment: async (root, args) => {
-      try {
-        const toBeUpdated = await Comment.findSortAndPopulateComment({
-          _id: args.id
-        });
-        // verifies document's existence before update is applied
-        if (toBeUpdated) {
+    modifyComment: async (root, args, { user }) => {
+      verifyUser(user); // throws Authentication error if not valid
+      const toBeUpdated = await Comment.findById({
+        _id: args.id
+      });
+      // only an authenticated user and auhor of a comment can edit comment
+      if (String(toBeUpdated.author) === String(user._id)) {
+        try {
           // updates applied
           toBeUpdated.likes = args.likes;
           toBeUpdated.content = args.content;
           await toBeUpdated.save();
 
-          console.log('update', toBeUpdated);
-
-          return toBeUpdated;
+          return await Comment.findSortAndPopulateComment({
+            _id: toBeUpdated._id
+          });
+        } catch (err) {
+          console.log(`modify comment error: ${err.message}`);
         }
-      } catch (err) {
-        console.log(`modify comment error: ${err.message}`);
-        throw new Error(err);
       }
+      throw new AuthenticationError('Not Authorized; Access Denied!');
     },
-    deleteComment: async (root, args) => {
+    deleteComment: async (root, args, { user }) => {
+      verifyUser(user);
       try {
         const cmtToDelete = await Comment.findById(args.id);
-        const author = await User.findById(user.id);
+        const author = await User.findById(user._id);
         // comment can only be deleted by it's authenticated author
         // when a comment is deleted, all the comments and likes associated
         // with it are deleted as well
         // and the deleted comment id dissociated from products and users.
-        if (cmtToDelete._id && String(user.id) === String(cmtToDelete.author)) {
+        if (
+          cmtToDelete &&
+          cmtToDelete._id &&
+          String(user._id) === String(cmtToDelete.author)
+        ) {
           // delete associated comments
           await Promise.all(
             cmtToDelete.comments?.map((id) => {
@@ -86,6 +94,7 @@ export default {
         }
       } catch (e) {
         console.log(`delete cmt error: ${e.message}`);
+        throw new AuthenticationError('Not Authorized; Access Denied!');
       }
     }
   },

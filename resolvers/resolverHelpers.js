@@ -13,8 +13,9 @@ const verifyAdminAccess = async (user) => {
 const verifyUser = (user) => {
   // throws error if user is not authenticated
   if (!user) {
-    throw new AuthenticationError('You are not authenticated');
+    throw new AuthenticationError('You are not authenticated, access denied');
   }
+  return true;
 };
 
 // validate Date parameters
