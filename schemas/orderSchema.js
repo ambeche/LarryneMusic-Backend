@@ -4,52 +4,61 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    orders: [Order]
-    order(orderId: ID!): Order
+    orders(
+      orderDate: String
+      dateRange: DateRangeInput
+      sortby: String
+    ): [Order!]
+    order(id: ID!): Order!
   }
 
   extend type Mutation {
     createOrder(
       transactionType: String
-      deliveryStatus: Boolean
-      quantity: Int
+      delivered: Boolean
       shippingAddress: ShippingAddressInput
-      orderDate: Int
-      deliveryDate: Int
-      estimatedDateOfDelivery: Int
+      deliveryDate: String
+      estimatedDateOfDelivery: String
       transactionStatus: String
-      shippingDetails: String
-      products: [ID]!
+      orderedProducts: [ItemTypeInput!]
       orderedBy: ID
+      shippingDetails: String
     ): Order
 
     modifyOrder(
-      OrderId: ID!
+      id: ID!
       transactionType: String
-      deliveryStatus: Boolean
-      quantity: Int
+      delivered: Boolean
       shippingAddress: ShippingAddressInput
-      deliveryDate: Int
-      estimatedDateOfDelivery: Int
+      deliveryDate: String
+      estimatedDateOfDelivery: String
       transactionStatus: String
       shippingDetails: String
     ): Order
-
-    deleteOrder(orderId: ID!): String
   }
 
   type Order {
     id: ID
     transactionType: String
-    deliveryStatus: Boolean
-    quantity: Int
+    delivered: Boolean
+    totalAmount: Int
     shippingAddress: ShippingAddress
-    orderDate: Int
-    deliveryDate: Int
-    estimatedDateOfDelivery: Int
+    orderDate: String
+    deliveryDate: String
+    estimatedDateOfDelivery: String
     transactionStatus: String
     shippingDetails: String
     orderedBy: User
-    products: [Product]
+    orderedProducts: [ItemType]
+  }
+
+  type ItemType {
+    product: Product
+    quantity: Int
+  }
+
+  input ItemTypeInput {
+    product: ID
+    quantity: Int
   }
 `;

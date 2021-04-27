@@ -4,18 +4,13 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    getProducts(
-      tag: String
-      priority: Int
-      sortby: String
-      max: Int
-    ): [Product!]
-    getProduct(id: ID!): Product
+    products(tag: String, priority: Int, sortby: String, max: Int): [Product!]
+    product(id: ID!): Product
   }
 
   extend type Mutation {
     modifyProduct(
-      productId: ID!
+      id: ID!
       title: String!
       description: String!
       tag: String
@@ -24,7 +19,7 @@ export default gql`
       likes: Int
     ): Product
 
-    deleteProduct(productId: ID!): String
+    deleteProduct(id: ID!): String
   }
 
   type Product {

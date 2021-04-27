@@ -4,7 +4,6 @@ import Product from '../models/Product.js';
 import Comment from '../models/Comment.js';
 import { uploadToCloudinaryAndMongoDB } from '../utils/cloudinary.js';
 import User from '../models/User.js';
-import {findAndPopulateProduct} from '../resolvers/resolverHelpers.js';
 
 export default {
   Mutation: {
@@ -37,23 +36,19 @@ export default {
     },
     modifyProduct: async (root, args) => {
       try {
-        const pdt = await Product.findById(args.productId);
+        const pdt = await Product.findById(args.id);
         // verify if product exist in db for the modification
         if (pdt._id) {
-          return await Product.findOneAndUpdate(
+          const updatedPdt = await Product.findOneAndUpdate(
             args.productId,
             { ...args },
             {
               new: true,
-              omitUndefined: true,
-              populate: {
-                path: 'owner',
-                path: 'comments',
-                path: 'storeInfo',
-                populate: { path: 'orders' }
-              }
+              omitUndefined: true
             }
           );
+          // populate associated fields and return pdt
+          return Product.findSortAndPopulateProduct({ _id: updatedPdt._id });
         }
       } catch (e) {
         console.log(`modify pdt error: ${e.message}`);
@@ -62,7 +57,7 @@ export default {
 
     deleteProduct: async (root, args) => {
       try {
-        const pdtToDelete = await Product.findById(args.productId);
+        const pdtToDelete = await Product.findById(args.id);
         //  when a product is deleted, all the Comment and likes associated
         // with the product are deleted as well
         // and the product id is removed from the asociated author of the product.
@@ -76,7 +71,7 @@ export default {
 
           // dissociate author from deleted product and update User
           const author = await User.findById(pdtToDelete.owner);
-          author.likedProducts = author.likedProducts.filter(
+          author.likedProducts = author.likedProducts?.filter(
             (pdt) => String(pdt) !== String(pdtToDelete._id)
           );
           await author.save();
@@ -86,31 +81,39 @@ export default {
           return `Successfully deleted ${pdtToDelete.title} with all its accociated likes and comments`;
         }
       } catch (e) {
-        console.log(`modify pdt error: ${e.message}`);
+        console.log(`delete pdt error: ${e.message}`);
       }
     }
   },
 
   Query: {
-    getProducts: async (root, args) => {
-      // returned products are filtered and/or sorted and limited based on query params passed.
-    
+    products: async (root, args) => {
+      // returned products are filtered and/or sorted and limited based on query params passed
+      // using a custom instance method
+
       try {
         if (args.tag) {
-           return await findAndPopulateProduct({ tag: args.tag }, args.sortby, args.max);
+          return await Product.findSortAndPopulateProduct(
+            { tag: args.tag },
+            args.sortby,
+            args.max
+          );
         } else if (args.priority)
-          return await findAndPopulateProduct({ priority: args.priority }, args.sortby, args.max);
-    
+          return await Product.findSortAndPopulateProduct(
+            { priority: args.priority },
+            args.sortby,
+            args.max
+          );
 
-        return findAndPopulateProduct({}, args.sortby, args.max);
+        return Product.findSortAndPopulateProduct({}, args.sortby, args.max);
       } catch (e) {
         console.log(`get pdt error: ${e.message}`);
       }
     },
-    getProduct: async (root, args) => {
+    product: async (root, args) => {
       // query product by id
       try {
-         return findAndPopulateProduct({_id: args.id});
+        return Product.findSortAndPopulateProduct({ _id: args.id });
       } catch (e) {
         console.log(`get pdt error: ${e.message}`);
       }
