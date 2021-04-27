@@ -18,13 +18,12 @@ passport.use(
     async (email, password, onComplete) => {
       try {
         const user = await User.findOne({ email });
-        console.log('Local strategy', user);
+
         if (user === null) {
           return onComplete(null, false, { message: 'invalid credentials' });
         }
 
         const validateUser = await bcrypt.compare(password, user.password);
-
         if (!validateUser) {
           return onComplete(null, false, { message: 'invalid credentials!' });
         }
@@ -54,14 +53,14 @@ passport.use(
     async (jwtPayload, onComplete) => {
       try {
         const user = await User.findById(jwtPayload._id);
-        console.log('jwt strategy payload', jwtPayload);
+
         if (user === null) {
           return onComplete(null, false);
         }
         const passLessUser = user.toObject();
         delete passLessUser.password;
         delete passLessUser.role;
-        console.log('jwt user', passLessUser);
+
         return onComplete(null, passLessUser);
       } catch (err) {
         return onComplete(err);
