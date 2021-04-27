@@ -5,7 +5,11 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
-    transactionType: { type: String, enum: ['Stripe', 'G Pay'] },
+    transactionType: {
+      type: String,
+      enum: ['stripe', 'g pay'],
+      set: (mth) => mth.toLowerCase()
+    },
     delivered: Boolean,
     totalAmount: Number,
     shippingAddress: {
@@ -39,19 +43,19 @@ const orderSchema = new Schema(
 
 // arrow function not used because it prevents the binding of 'this'
 orderSchema.statics.findSortAndPopulateOrder = async function (filter, sort) {
-  // query and populate orders
+  // query and populate orders and protect user's credentials
   const sortby = sort ? sort : '-createdAt';
 
   if (filter._id)
     return await this.findById(filter)
-      .populate({ path: 'orderedBy', select: '-_id -password -email' })
+      .populate({ path: 'orderedBy', select: '-_id -password -email -role' })
       .populate({
         path: 'orderedProducts',
         populate: [{ path: 'product' }]
       });
 
   return await this.find(filter)
-    .populate({ path: 'orderedBy', select: '-_id -password -email' })
+    .populate({ path: 'orderedBy', select: '-_id -password -email -role' })
     .populate({
       path: 'orderedProducts',
       populate: [{ path: 'product' }]

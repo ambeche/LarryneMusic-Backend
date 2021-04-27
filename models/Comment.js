@@ -36,12 +36,12 @@ commentSchema.statics.findSortAndPopulateComment = async function (filter, sort)
   if (filter._id)
     return await this.findById(filter)
       .populate('commentedComments')
-      .populate({ path: 'author', select: '-_id -password -email' }) // excludes users credentials from circulation
+      .populate({ path: 'author', select: '-_id -password -email -role' }) // excludes users credentials from circulation
       .populate('commentedProducts')
       .populate('comments');
 
   return await this.find(filter)
-    .populate({ path: 'author', select: '-_id -password -email' })
+    .populate({ path: 'author', select: '-_id -password -email -role' })
     .populate('commentedProducts')
     .populate('comments')
     .populate('commentedComments')

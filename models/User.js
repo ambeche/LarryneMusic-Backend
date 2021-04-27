@@ -1,13 +1,19 @@
 'use strict';
 
 import mongoose from 'mongoose';
+import config from '../utils/config.js';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: { type: String, unique: true },
   password: { type: String, required: true },
   fullname: { type: String, required: true },
-  role: { type: String, enum: ['fan', 'admin'], default: 'fan' },
+  role: {
+    // role is used to set authorization and restrictions
+    type: String,
+    enum: [config.ROLE_USER, config.ROLE_ADMIN],
+    default: config.ROLE_USER
+  },
   subscribed: Boolean,
   shippingAddress: {
     street: String,
@@ -40,7 +46,7 @@ userSchema.statics.findByIdAndPopulateUser = async function (id, options) {
     .populate('comments')
     .populate('likedProducts')
     .populate('likedComments')
-    //.populate('orders')
+    .populate('orders')
     .populate('profileImage');
 };
 

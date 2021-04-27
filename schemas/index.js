@@ -1,5 +1,6 @@
 'use strict';
 import { gql } from 'apollo-server-express';
+import { constraintDirectiveTypeDefs } from 'graphql-constraint-directive';
 import commentSchema from './commentSchema.js';
 import orderSchema from './orderSchema.js';
 import productSchema from './productSchema.js';
@@ -24,4 +25,5 @@ export default [
   userSchema,
   addressSchema,
   fileUploadSchema,
+  constraintDirectiveTypeDefs,
 ];
