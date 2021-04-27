@@ -61,5 +61,39 @@ export default {
         throw new Error(err);
       }
     }
+  },
+
+  Query: {
+    orders: async (root, args) => {
+      // returned Orders are filtered by date range and/or sorted based on query params passed.
+      // defalult sorting is by date in decending order
+
+      try {
+        if (args.dateRange|| args.date) {
+          const dateRange = dateValidator(args.dateRange);
+          const date = dateValidator({}, args.orderDate);
+
+          if (dateRange) {
+            return await Order.findSortAndPopulateOrder(
+              { createdAt: { $gte: dateRange.first, $lte: dateRange.last } },
+              args.sortby
+            );
+          }
+          return await Order.findSortAndPopulateOrder({orderDate: date}, args.sortby)
+        }
+
+        return Order.findSortAndPopulateOrder({}, args.sortby);
+      } catch (e) {
+        console.log(`get orders error: ${e.message}`);
+      }
+    },
+    order: async (root, args) => {
+      // query Order by id
+      try {
+        return Order.findSortAndPopulateOrder({ _id: args.id });
+      } catch (e) {
+        console.log(`get order error: ${e.message}`);
+      }
+    }
   }
 };

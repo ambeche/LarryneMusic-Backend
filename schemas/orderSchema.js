@@ -4,8 +4,12 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    Orders: [Order!]
-    Order(id: ID!): Order!
+    orders(
+      orderDate: String
+      dateRange: DateRangeInput
+      sortby: String
+    ): [Order!]
+    order(id: ID!): Order!
   }
 
   extend type Mutation {
