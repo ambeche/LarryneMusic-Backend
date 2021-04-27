@@ -1,4 +1,12 @@
 'use strict';
+import { AuthenticationError } from 'apollo-server-errors';
+
+const verifyUser = (user) => {
+  // throws error if user is not authenticated
+  if (!user) {
+    throw new AuthenticationError('You are not authenticated');
+  }
+};
 
 // validate Date parameters
 const dateValidator = ({ earlier, later }, date) => {
@@ -16,4 +24,4 @@ const dateValidator = ({ earlier, later }, date) => {
   return false;
 };
 
-export { dateValidator };
+export { dateValidator, verifyUser };

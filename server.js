@@ -25,7 +25,7 @@ import auth from './utils/auth/auth.js';
 
     const app = express();
 
-    app.use(cors);
+    app.use(cors() );
     app.use(
       helmet({
         ieNoOpen: false, // disabling X-Download-Options

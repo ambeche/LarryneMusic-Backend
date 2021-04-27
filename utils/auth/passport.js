@@ -15,9 +15,9 @@ passport.use(
     {
       usernameField: 'email'
     },
-    async (username, password, onComplete) => {
+    async (email, password, onComplete) => {
       try {
-        const user = await User.findone({ username });
+        const user = await User.findOne({ email });
         console.log('Local strategy', user);
         if (user === null) {
           return onComplete(null, false, { message: 'invalid credentials' });
