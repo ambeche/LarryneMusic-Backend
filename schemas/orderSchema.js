@@ -14,8 +14,6 @@ export default gql`
 
   extend type Mutation {
     createOrder(
-      transactionType: String
-      delivered: Boolean
       shippingAddress: ShippingAddressInput
       deliveryDate: String
       estimatedDateOfDelivery: String
