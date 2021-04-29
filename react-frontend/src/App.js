@@ -9,12 +9,13 @@ import Store from './components/store/Store';
 import Login from './components/auth/Login';
 import Home from './components/home/Home';
 import AdminPanel from './components/users/AdminPanel';
+import Notification from './components/Notification';
 
 const App = () => {
   const result = useQuery(PRODUCTS);
   const [user, setUser] = useState(null);
   const [notice, setNotice] = useState({ message: null, severity: null });
-
+  console.log('notice', notice);
   const notify = (message) => {
     setNotice(message);
     setTimeout(() => {
@@ -43,13 +44,14 @@ const App = () => {
 
         {
           // only appears if user is admin
-          user && user.role === process.env.ROLE_ADMIN && (
+
+          user?.role === user?.roleValue && (
             <Link style={padding} to="/admin">
-              {user.fullname}
+              {user?.fullname}
             </Link>
           )
         }
-        {user && user.role === process.env.ROLE_USER && (
+        {user && !user?.roleValue && (
           <Link style={padding} to="/profile">
             {user.fullname}
           </Link>
@@ -72,16 +74,16 @@ const App = () => {
           <Store />
         </Route>
         <Route path="/admin">
-          <AdminPanel />
+          <AdminPanel user={user} />
         </Route>
         <Route path="/login">
-          <Login setUser={setUser} setNotification={notify} />
+          <Login setUser={setUser} setError={notify} />
         </Route>
         <Route path="/">
           <Home />
         </Route>
       </Switch>
-
+      <Notification notice={notice} />
       <div>
         <br />
         <em>LarryneMusic</em>

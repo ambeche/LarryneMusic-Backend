@@ -1,22 +1,29 @@
 import React from 'react';
-import {Snackbar} from '@material-ui/core';
-import {ERROR, SUCCESS} from '../assets/colors';
+import { Snackbar, SnackbarContent } from '@material-ui/core';
+import { ERROR, SUCCESS } from '../assets/colors';
 
-const Notification = ({message, severity}) => {
-  const color = severity === 'success' ? SUCCESS : ERROR;
+const Notification = ({ notice }) => {
+  const color = notice?.severity === 'success' ? SUCCESS : ERROR;
 
-  if (!message) return null;
+  if (!notice?.message) return null;
 
   return (
     <div>
-    <Snackbar
-    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-    bodyStyle={{ backgroundColor: {color} }}
-    open={true}
-    message={message}
-  />
+      <Snackbar
+        anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+        
+        open={true}
+        message={notice?.message}
+      >
+        <SnackbarContent
+          style={{
+            backgroundColor: color
+          }}
+          message={<span id="client-snackbar">{notice?.message}</span>}
+        />
+      </Snackbar>
     </div>
-  )
-}
+  );
+};
 
 export default Notification;

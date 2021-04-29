@@ -1,5 +1,5 @@
 const SUCCESS = '#219653';
-const ERROR = '#EB5757';
+const ERROR = '#ED4337';
 const PRIMARY = '#6A1B9A';
 const PRIMARY_DARK = '#38006B';
 const ACCENT = '#E254FF';

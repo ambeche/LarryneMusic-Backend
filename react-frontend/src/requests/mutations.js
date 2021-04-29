@@ -226,15 +226,26 @@ export const MODIFY_ORDER = gql`
   }
 `;
 
+export const LOGIN = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      id
+      fullname
+      role
+      roleValue
+      token
+    }
+  }
+`;
 
 export const DELETE_COMMENT = gql`
-  mutation deleteComment($id: ID!) mutation{
+  mutation deleteComment($id: ID!){
     deleteComment(id: $id)
   }
 `
 
 export const DELETE_PRODUCT = gql`
-  mutation deleteProduct($id: ID!) mutation{
+  mutation deleteProduct($id: ID!){
     deleteProduct(id: $id)
   }
 `

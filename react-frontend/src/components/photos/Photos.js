@@ -4,7 +4,7 @@ const Photos = () => {
 
   return (
     <div>
-
+     
     </div>
   )
 }
