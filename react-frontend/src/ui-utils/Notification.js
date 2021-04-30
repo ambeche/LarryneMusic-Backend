@@ -10,7 +10,7 @@ const Notification = ({ notice }) => {
   return (
     <div>
       <Snackbar
-        anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         
         open={true}
         message={notice?.message}

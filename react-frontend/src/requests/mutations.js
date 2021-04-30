@@ -10,7 +10,7 @@ export const REGISTER_USER = gql`
   }
 `;
 
-export const UPLOAD_FILES_PRODUCT = gql`
+export const UPLOAD_FILES_OF_PRODUCT = gql`
   mutation uploadFilesOfProduct($files: [Upload!]) {
     uploadFilesOfProduct(files: $files) {
       id

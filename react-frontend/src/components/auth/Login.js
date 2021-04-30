@@ -3,19 +3,18 @@ import { useMutation } from '@apollo/client';
 import { TextField, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { LOGIN } from '../../requests/mutations';
-import Notification from '../Notification';
 
-const Login = ({ setError, setUser }) => {
+const Login = ({ setNotice, setUser }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [login, result] = useMutation(LOGIN, {
-    onCompleted(data) {
+    onCompleted: (data) => {
       history.push('/');
     },
     onError: (error) => {
-      setError({ message: error.graphQLErrors[0].message, severity: 'error' });
+      setNotice({ message: error.graphQLErrors[0].message, severity: 'error' });
       console.log('erro', error.message);
     }
   });

@@ -9,7 +9,7 @@ import Store from './components/store/Store';
 import Login from './components/auth/Login';
 import Home from './components/home/Home';
 import AdminPanel from './components/users/AdminPanel';
-import Notification from './components/Notification';
+import Notification from './ui-utils/Notification';
 
 const App = () => {
   const result = useQuery(PRODUCTS);
@@ -74,10 +74,10 @@ const App = () => {
           <Store />
         </Route>
         <Route path="/admin">
-          <AdminPanel user={user} />
+          <AdminPanel user={user} setNotice={notify}/>
         </Route>
         <Route path="/login">
-          <Login setUser={setUser} setError={notify} />
+          <Login setUser={setUser} setNotice={notify} />
         </Route>
         <Route path="/">
           <Home />

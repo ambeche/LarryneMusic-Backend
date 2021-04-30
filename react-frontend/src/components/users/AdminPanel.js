@@ -1,17 +1,18 @@
-import{ React, useState} from 'react';
+import { React, useState } from 'react';
+import UploadFiles from './UploadFiles';
 
-const AdminPanel = ({user}) => {
+const AdminPanel = ({ user, setNotice }) => {
+  const [products, setProducts] = useState(null);
 
-  
   if (user && user?.role === user?.roleValue) {
     return (
       <div>
-         welcome melh
+        <UploadFiles setNotice={setNotice} setProducts={setProducts} />
       </div>
-    )
+    );
   }
 
   return null;
-}
+};
 
 export default AdminPanel;
