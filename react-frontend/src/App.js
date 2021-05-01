@@ -12,9 +12,10 @@ import AdminPanel from './components/users/AdminPanel';
 import Notification from './ui-utils/Notification';
 
 const App = () => {
-  const result = useQuery(PRODUCTS);
+  //const result = useQuery(PRODUCTS, {variables:{tag: 'photo'}});
   const [user, setUser] = useState(null);
   const [notice, setNotice] = useState({ message: null, severity: null });
+  const [products, setProducts] = useState(null);
   console.log('notice', notice);
   const notify = (message) => {
     setNotice(message);
@@ -23,11 +24,11 @@ const App = () => {
     }, 8000);
   };
 
-  if (result.loading) {
+  if (false) {
     return <div>loading...</div>;
   }
 
-  console.log(result.data.products);
+  //console.log(result?.data?.products);
   const padding = { padding: 10 };
   return (
     <Container>
@@ -74,7 +75,7 @@ const App = () => {
           <Store />
         </Route>
         <Route path="/admin">
-          <AdminPanel user={user} setNotice={notify}/>
+          <AdminPanel user={user} setNotice={notify} products={products} setProducts={setProducts}/>
         </Route>
         <Route path="/login">
           <Login setUser={setUser} setNotice={notify} />

@@ -1,11 +1,18 @@
 import { useMutation } from '@apollo/client';
+import { useEffect } from 'react';
 import ProgressBar from '../../ui-utils/ProgressBar';
+import { ThemeProvider, Button } from '@material-ui/core';
+import PublishIcon from '@material-ui/icons/Publish';
 import { UPLOAD_FILES_OF_PRODUCT } from '../../requests/mutations';
+import theme from '../../ui-utils/muiTheme';
+import { PRODUCTS } from '../../requests/queries';
 
 const UploadFiles = ({ setNotice, setProducts }) => {
-  const [upload, { data, loading }] = useMutation(UPLOAD_FILES_OF_PRODUCT, {
+  const [upload, { loading }] = useMutation(UPLOAD_FILES_OF_PRODUCT, {
     onCompleted: (data) => {
       setProducts(data.uploadFilesOfProduct);
+      console.log('pdtupload', data.uploadFilesOfProduct);
+
       setNotice({
         message:
           'Files uploaded successfully, you can now edit and post products!',
@@ -14,11 +21,12 @@ const UploadFiles = ({ setNotice, setProducts }) => {
     },
     onError: (error) => {
       setNotice({
-        message: error.graphQLErrors[0].message,
+        message: error?.graphQLErrors[0]?.message,
         severity: 'error'
       });
       console.log('erro', error.message);
-    }
+    },
+    refetchQueries: [{ query: PRODUCTS }]
   });
 
   const handleFilesUpload = ({ target: { validity, files } }) => {
@@ -27,7 +35,21 @@ const UploadFiles = ({ setNotice, setProducts }) => {
 
   //if(data) return null;
   if (loading) return <ProgressBar />;
-  return <input type="file" multiple required onChange={handleFilesUpload} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <Button color="secondary" component="label">
+        <input
+          type="file"
+          multiple
+          required
+          hidden
+          onChange={handleFilesUpload}
+          accept="image/*"
+        />
+        <PublishIcon /> Upload photos
+      </Button>
+    </ThemeProvider>
+  );
 };
 
 export default UploadFiles;

@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { ACCENT, SUCCESS } from '../assets/colors';
+import { ACCENT, ACCENT_TWO, SUCCESS } from '../assets/colors';
 
 const theme = createMuiTheme({
   overrides: {
@@ -12,6 +12,10 @@ const theme = createMuiTheme({
       colorSecondary: {
         color: ACCENT
       }
+    },
+    MuiButton: {
+      textSecondary:{color: ACCENT,},
+      containedPrimary: {color: ACCENT_TWO,}
     }
   }
 });

@@ -1,26 +1,27 @@
 import { gql } from '@apollo/client';
 
 export const PRODUCTS = gql`
-  query {
-    products(sortby: "-likes") {
+query products($filter: FilterInput) {
+  products(filter: $filter) {
+    id
+    title
+    description
+    tag
+    priority
+    published
+    likes
+    image {
+      url
+      publicId
+      responsiveBreakpoints
+    }
+    comments {
       id
-      title
-      description
-      tag
-      priority
+      content
       likes
-      image {
-        url
-        publicId
-        responsiveBreakpoints
-      }
-      comments {
-        id
-        content
-        likes
-      }
     }
   }
+}
 `;
 export const PRODUCT = gql`
   query product($id: ID!) {

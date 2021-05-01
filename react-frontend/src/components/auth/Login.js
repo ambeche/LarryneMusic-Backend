@@ -44,6 +44,8 @@ const Login = ({ setNotice, setUser }) => {
         <div>
           <TextField
             label="email"
+            type="email"
+            autoComplete="current-email"
             required
             onChange={({ target }) => setEmail(target.value)}
           />
@@ -52,6 +54,8 @@ const Login = ({ setNotice, setUser }) => {
           <TextField
             label="password"
             type="password"
+            autoComplete="current-password"
+
             required
             onChange={({ target }) => setPassword(target.value)}
           />
