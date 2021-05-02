@@ -4,7 +4,7 @@ import { TextField, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { LOGIN } from '../../requests/mutations';
 
-const Login = ({ setNotice, setUser }) => {
+const Login = ({ setNotice, setUser, setProfile }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,9 +12,13 @@ const Login = ({ setNotice, setUser }) => {
   const [login, result] = useMutation(LOGIN, {
     onCompleted: (data) => {
       history.push('/');
+      window.location.reload(false);
     },
     onError: (error) => {
-      setNotice({ message: error?.graphQLErrors[0]?.message, severity: 'error' });
+      setNotice({
+        message: error?.graphQLErrors[0]?.message,
+        severity: 'error'
+      });
       console.log('erro', error.message);
     }
   });
@@ -24,6 +28,7 @@ const Login = ({ setNotice, setUser }) => {
       console.log(result);
       const user = result.data.login;
       setUser(user);
+      setProfile(true);
       console.log('user', user.fullname);
       // persist user's token to localstorage
       localStorage.setItem('user-token', user.token);
@@ -56,7 +61,6 @@ const Login = ({ setNotice, setUser }) => {
             label="password"
             type="password"
             autoComplete="current-password"
-
             required
             onChange={({ target }) => setPassword(target.value)}
           />
