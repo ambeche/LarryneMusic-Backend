@@ -12,13 +12,24 @@ export const REGISTER_USER = gql`
 
 export const UPLOAD_FILES_OF_PRODUCT = gql`
   mutation uploadFilesOfProduct($files: [Upload!]) {
-    uploadFilesOfProduct(files: $files) {
+    uploadFilesOfProduct(files: $files)  {
       id
-      url
-      filename
-      publicId
-      mimetype
-      responsiveBreakpoints
+      title
+      description
+      tag
+      priority
+      published
+      likes
+      image {
+        url
+        publicId
+        responsiveBreakpoints
+      }
+      comments {
+        id
+        content
+        likes
+      }
     }
   }
 `;

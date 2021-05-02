@@ -20,6 +20,7 @@ import DeleteIcon from '@material-ui/icons/DeleteRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import { ACCENT, ACCENT_TWO, PRIMARY } from '../../assets/colors';
 import { PRODUCTS } from '../../requests/queries';
+import ProgressBar from '../../ui-utils/ProgressBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,15 +79,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const AdminPanel = ({ user, setNotice, products, setProducts }) => {
+const AdminPanel = ({ user, token, setNotice, products, setProducts }) => {
   const result = useQuery(PRODUCTS, {
-    variables: { filter: { key: 'published', value: 'no' } }
+    variables: { filter: { key: 'published', value: false } }
   });
 
   const classes = useStyles();
-  console.log('tobe', products);
+  console.log('tobe', result);
 
-  if (user && user?.role === user?.roleValue) {
+  if ((user || token) && user?.role === user?.roleValue) {
+    if (result.loading) return <ProgressBar />;
     return (
       <div>
         <div className={classes.upload}>
@@ -100,7 +102,7 @@ const AdminPanel = ({ user, setNotice, products, setProducts }) => {
             alignItems="center"
             alignContent="center"
           >
-            {products?.map((pdt) => (
+            {result?.data?.products?.map((pdt) => (
               <Grid key={pdt.id} item xs={6} id="card">
                 <Card className={classes.mediaRoot}>
                   <CardActionArea>
@@ -108,9 +110,9 @@ const AdminPanel = ({ user, setNotice, products, setProducts }) => {
                       <img
                         alt="artist Larryne"
                         className={classes.media}
-                        src={pdt.url}
+                        src={pdt.image.url}
                         width="20%"
-                        title={pdt.filename}
+                        title={pdt.title}
                       />
 
                       <div className={classes.comments}>
@@ -133,7 +135,7 @@ const AdminPanel = ({ user, setNotice, products, setProducts }) => {
 
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
-                        {pdt.filename}
+                        {pdt.title}
                       </Typography>
                       <Typography
                         variant="body2"

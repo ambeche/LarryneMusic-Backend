@@ -14,7 +14,7 @@ const Login = ({ setNotice, setUser }) => {
       history.push('/');
     },
     onError: (error) => {
-      setNotice({ message: error.graphQLErrors[0].message, severity: 'error' });
+      setNotice({ message: error?.graphQLErrors[0]?.message, severity: 'error' });
       console.log('erro', error.message);
     }
   });
@@ -25,6 +25,7 @@ const Login = ({ setNotice, setUser }) => {
       const user = result.data.login;
       setUser(user);
       console.log('user', user.fullname);
+      // persist user's token to localstorage
       localStorage.setItem('user-token', user.token);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

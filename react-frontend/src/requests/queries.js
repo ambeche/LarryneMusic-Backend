@@ -68,3 +68,13 @@ export const EDIT_NUMBER = gql`
     }
   }
 `;
+export const USER = gql`
+  query {
+    user {
+      id
+      role
+      roleValue
+      fullname
+    }
+  }
+`;
