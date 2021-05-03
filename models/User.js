@@ -6,13 +6,19 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: { type: String, unique: true },
-  password: { type: String, required: true },
-  fullname: { type: String, required: true },
+  password: { type: String, required: true, minLength: 8 },
+  fullname: { type: String, required: true, minLength: 3 },
   role: {
     // role is used to set authorization and restrictions
     type: String,
     enum: [config.ROLE_USER, config.ROLE_ADMIN],
     default: config.ROLE_USER
+  },
+  roleValue: {
+    type: String,
+    default: function () {
+      if (this.role === config.ROLE_ADMIN) return config.ROLE_ADMIN;
+    }
   },
   subscribed: Boolean,
   shippingAddress: {

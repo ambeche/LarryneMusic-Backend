@@ -24,8 +24,35 @@ export default {
 
         return userobj;
       } catch (err) {
-        console.log(`add user error: ${err.message}`);
+        console.log(`add user error: ${err}`);
         throw new Error(err);
+      }
+    },
+
+    login: async (parent, args, { req, res }) => {
+      // injecting username and password to req.body for passport
+      console.log(args);
+      req.body = args;
+      console.log('req', req.body);
+      try {
+        const { user, token } = await auth.login(req, res);
+        console.log('admin',  {
+          ...user,
+          id: user._id,
+          roleValue: user.roleValue,
+          token
+        });
+
+        
+        return {
+          ...user,
+          id: user._id,
+          roleValue: user.roleValue,
+          token
+        };
+      } catch (e) {
+        console.error('error', e);
+        throw new AuthenticationError('invalid credentials');
       }
     }
   },
@@ -36,32 +63,12 @@ export default {
       if (user) {
         console.log('userResolver', user);
         const userInDB = await User.findById(user._id);
-        delete userInDB.password;
-        console.log('withoutPass', userInDB);
-        return userInDB;
+        const response = userInDB.toObject();
+        delete response.password;
+        console.log('withoutPass', response);
+        return response;
       }
       throw new AuthenticationError('Authorization Denied!');
-    },
-
-    login: async (parent, args, { req, res }) => {
-      // injecting username and password to req.body for passport
-      console.log(args);
-      req.body = args;
-      console.log('req', req.body);
-      try {
-        const { user, token } = await auth.login(req, res);
-
-        console.log('auth', user);
-        return {
-          id: user._id,
-          email: user.email,
-          fullname: user.fullname,
-          token
-        };
-      } catch (e) {
-        console.error('error', e);
-        throw new AuthenticationError('invalid credentials');
-      }
     }
   }
 };

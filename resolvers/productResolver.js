@@ -29,11 +29,11 @@ export default {
             })
           );
 
-          console.log(`files: `, uploadResponse);
-
-          return uploadResponse.map((pdtImage) => {
-            return { ...pdtImage.image, id: pdtImage._id };
-          });
+          //console.log(`files: `, uploadResponse);
+          // populates, sort and return a list of the newly created products and theier images.
+          return await Promise.all(uploadResponse.map((pdtImage) => {
+            return Product.findSortAndPopulateProduct({_id:pdtImage._id})
+          }))
         } catch (err) {
           console.log(`upload error: ${err.message}`);
           throw new Error(err);
@@ -46,16 +46,20 @@ export default {
       if (await verifyAdminAccess(user)) {
         try {
           const pdt = await Product.findById(args.id);
+
           // verify if product exist in db for the modification
           if (pdt._id) {
             const updatedPdt = await Product.findOneAndUpdate(
               args.productId,
-              { ...args },
+              args,
               {
-                new: true,
-                omitUndefined: true
+                new: true
               }
             );
+            console.log('pub', pdt);
+
+            console.log('modified', updatedPdt);
+
             // populate associated fields and return pdt
             return Product.findSortAndPopulateProduct({ _id: updatedPdt._id });
           }
@@ -110,16 +114,25 @@ export default {
       try {
         if (args.tag) {
           return await Product.findSortAndPopulateProduct(
-            { tag: args.tag },
+            { tag: args.tag ,  'published': true},
             args.sortby,
             args.max
-          );
+          ); // search by priority
         } else if (args.priority)
           return await Product.findSortAndPopulateProduct(
             { priority: args.priority },
             args.sortby,
             args.max
           );
+        // search by user defined filter
+        else if (args.filter) {
+          
+          return await Product.findSortAndPopulateProduct(
+            { [args.filter.key]: args.filter.value },
+            args.sortby,
+            args.max
+          );
+        }
 
         return Product.findSortAndPopulateProduct({}, args.sortby, args.max);
       } catch (e) {
