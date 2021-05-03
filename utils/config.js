@@ -12,6 +12,7 @@ const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 const CLOUDINARY_URL = process.env.CLOUDINARY_URL;
 const ROLE_USER = process.env.ROLE_USER;
 const ROLE_ADMIN = process.env.ROLE_ADMIN;
+const NODE_ENV=process.env.NODE_ENV
 
 export default {
   PORT,
@@ -24,4 +25,5 @@ export default {
   CLOUDINARY_URL,
   ROLE_ADMIN,
   ROLE_USER,
+  NODE_ENV,
 };

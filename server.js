@@ -6,7 +6,8 @@ import cors from 'cors';
 import schemas from './schemas/index.js';
 import resolvers from './resolvers/index.js';
 import express from 'express';
-
+import production from  './ssl/production.js';
+import localhost from './ssl/localhost.js'
 import mongoDB from './db/mongoDB.js';
 import { constraintDirective } from 'graphql-constraint-directive';
 import auth from './utils/auth/auth.js';
@@ -35,12 +36,18 @@ import auth from './utils/auth/auth.js';
 
     server.applyMiddleware({ app, path: '/graphql' });
 
+
     mongoDB.on('connected', () => {
-      app.listen(config.PORT, () =>
-        console.log(`server url: http://localhost:${config.PORT}/graphql`)
-      );
-    });
-  } catch (e) {
-    console.error(`server error: ${e}`);
-  }
+         config.NODE_ENV = config.NODE_ENV || 'development';
+    if (config.NODE_ENV === 'production') {
+      console.log('prduction');
+      production(app, config.PORT);
+    } else {
+      console.log('localhost');
+      localhost(app, config.HTTPS_PORT, config.PORT );
+    }
+       })
+   } catch (e) {
+      console.log('server error: ', e);
+   }
 })();

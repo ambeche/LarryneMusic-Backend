@@ -5,8 +5,8 @@ import http from 'http';
 import fs from 'fs';
 
 
-const sslkey = fs.readFileSync('../../ssl-key.pem');
-const sslcert = fs.readFileSync('../../ssl-cert.pem');
+const sslkey = fs.readFileSync('./ssl-key.pem');
+const sslcert = fs.readFileSync('./ssl-cert.pem');
 
 const options = {
   key: sslkey,
