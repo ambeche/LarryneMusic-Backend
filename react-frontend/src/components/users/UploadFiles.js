@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import ProgressBar from '../../ui-utils/ProgressBar';
 import { ThemeProvider, Button } from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
@@ -8,6 +8,7 @@ import theme from '../../ui-utils/muiTheme';
 import { PRODUCTS } from '../../requests/queries';
 
 const UploadFiles = ({ setNotice, setProducts }) => {
+  const history = useHistory();
   const [upload, { loading }] = useMutation(UPLOAD_FILES_OF_PRODUCT, {
     onCompleted: (data) => {
       setProducts(data.uploadFilesOfProduct);
@@ -18,6 +19,9 @@ const UploadFiles = ({ setNotice, setProducts }) => {
           'Files uploaded successfully, you can now edit and post products!',
         severity: 'success'
       });
+      history.push('/admin/unpublished-items');
+      window.location.reload(false);
+     
     },
     onError: (error) => {
       setNotice({

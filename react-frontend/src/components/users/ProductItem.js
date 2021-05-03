@@ -15,14 +15,16 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import DeleteIcon from '@material-ui/icons/DeleteRounded';
 import useStyles from '../../ui-utils/globalStyles';
 import EditProduct from './EditProduct';
+import Notification from '../../ui-utils/Notification';
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, setNotice }) => {
   const [dialog, setDialog] = useState(false);
   const classes = useStyles();
 
   const openEditDialog = () => {
     setDialog(true)
   };
+ 
   return (
     <>
       <Grid key={product.id} item xs={12} sm={12}md={6} lg={6} id="card">
@@ -70,7 +72,8 @@ const ProductItem = ({ product }) => {
           </CardActions>
         </Card>
       </Grid>
-      <EditProduct dialog={dialog} setDialog={setDialog} product={product} />
+     
+      <EditProduct dialog={dialog} setDialog={setDialog} product={product} setNotice={setNotice} /> 
     </>
   );
 };

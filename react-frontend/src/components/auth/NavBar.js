@@ -10,17 +10,17 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
     return (
       <>
         <Link className={classes.appBarLink} to="/">
-          <Button className={classes.appBarLink} onClick={handleLogout}>
+          <Button className={classes.appBarLink} >
             LarryneMusic
           </Button>
         </Link>
         <Link className={classes.appBarLink} to="/photos">
-          <Button className={classes.appBarLink} onClick={handleLogout}>
+          <Button className={classes.appBarLink}>
             photos
           </Button>
         </Link>
         <Link className={classes.appBarLink} to="/store">
-          <Button className={classes.appBarLink} onClick={handleLogout}>
+          <Button className={classes.appBarLink} >
             store
           </Button>
         </Link>
@@ -33,7 +33,7 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
           // stored in storage
 
           data?.user?.roleValue ? (
-            <Link className={classes.appBarLink} to="/admin">
+            <Link className={classes.appBarLink} to="/admin/unpublished-items">
               <Button className={classes.appBarLink} >
                 {data?.user?.fullname ?? user?.fullname}
               </Button>

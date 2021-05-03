@@ -4,15 +4,22 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    products(tag: String, priority: Int, sortby: String, max: Int): [Product!]
+    products(
+      filter: FilterInput
+      tag: String
+      priority: Int
+      sortby: String
+      max: Int
+    ): [Product!]
     product(id: ID!): Product
   }
 
   extend type Mutation {
     modifyProduct(
       id: ID!
-      title: String!
-      description: String!
+      title: String
+      published: Boolean
+      description: String
       tag: String
       priority: Int
       storeInfo: StoreInfoInput
@@ -29,6 +36,9 @@ export default gql`
     description: String
     tag: String
     priority: Int
+    published:Boolean
+    createdAt: String
+    updatedAt: String
     storeInfo: StoreInfo
     comments: [Comment]
     owner: User
@@ -36,20 +46,20 @@ export default gql`
   }
 
   type StoreInfo {
-    price: Int!
-    availability: Boolean
+    price: Int
+    available: Boolean
     quantitySold: Int
-    orderOrPreorder: String!
+    orderOrPreorder: String
     orders: [Order]
-    deliveryType: String!
+    deliveryType: String
   }
 
   input StoreInfoInput {
-    price: Int!
-    availability: Boolean!
+    price: Int
+    available: Boolean
     quantitySold: Int
-    orderOrPreorder: String!
-    deliveryType: String!
+    orderOrPreorder: String
+    deliveryType: String
   }
 
   type Image {
@@ -58,5 +68,10 @@ export default gql`
     mimetype: String
     filename: String
     responsiveBreakpoints: [String]
+  }
+
+  input FilterInput {
+    key: String!
+    value: Boolean!
   }
 `;

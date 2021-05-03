@@ -25,6 +25,13 @@ export const UPLOAD_FILES_OF_PRODUCT = gql`
         publicId
         responsiveBreakpoints
       }
+      storeInfo {
+        price
+    available
+    quantitySold
+    orderOrPreorder
+    deliveryType
+      }
       comments {
         id
         content
@@ -36,16 +43,16 @@ export const UPLOAD_FILES_OF_PRODUCT = gql`
 
 export const MODIFY_PRODUCT = gql`
   mutation ModifyProduct(
-    $productId: ID!
-    $title: String!
-    $description: String!
+    $id: ID!
+    $title: String
+    $description: String
     $tag: String
     $priority: Int
     $storeInfo: StoreInfoInput
     $likes: Int
   ) {
     modifyProduct(
-      id: $productId
+      id: $id
       title: $title
       description: $description
       tag: $tag
@@ -59,6 +66,7 @@ export const MODIFY_PRODUCT = gql`
       tag
       priority
       likes
+      updatedAt
       image {
         url
         publicId
@@ -68,7 +76,7 @@ export const MODIFY_PRODUCT = gql`
         price
         orderOrPreorder
         quantitySold
-        availability
+        available
         deliveryType
         orders {
           id

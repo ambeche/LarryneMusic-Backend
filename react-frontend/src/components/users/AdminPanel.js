@@ -45,10 +45,10 @@ const AdminPanel = ({ user, token, setNotice, setProducts }) => {
           <Route path="/admin/unpublished-items">
             <UnPublished
               unPublishedProducts={unPublishedProducts?.data?.products}
-            />
+              setNotice={setNotice}/>
           </Route>
           <Route path="/admin/published-items">
-            <Published publishedProducts={publishedProducts?.data?.products} />
+            <Published publishedProducts={publishedProducts?.data?.products} setNotice={setNotice} />
           </Route>
         </Switch>
       </div>

@@ -5,12 +5,11 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     user: User
-    login(email: String!, password: String!): User
   }
 
   extend type Mutation {
     registerUser(userInput: UserInput): User
-
+    login(email: String!, password: String!): User
     modifyUser(fullname: String, shippingAddress: ShippingAddressInput): User
   }
 
@@ -25,6 +24,8 @@ export default gql`
     comments: [Comment]
     likedProducts: [Product]
     likedComments: [Comment]
+    role: String
+    roleValue: String
     token: String
   }
 

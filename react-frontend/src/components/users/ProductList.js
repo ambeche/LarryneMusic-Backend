@@ -5,7 +5,7 @@ import useStyles from '../../ui-utils/globalStyles'
 import ProductItem from './ProductItem';
 
 
-const ProductList = ({ products }) => {
+const ProductList = ({ products, setNotice }) => {
   const classes = useStyles();
 
   return (
@@ -18,7 +18,7 @@ const ProductList = ({ products }) => {
         alignContent="center"
       >
         {products?.map((pdt) => (
-          <ProductItem key={pdt.id} product={pdt} />
+          <ProductItem key={pdt.id} product={pdt} setNotice={setNotice}/>
         ))}
       </Grid>
     </div>

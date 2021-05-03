@@ -104,6 +104,29 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 20,
     
   },
+  // edit product dialog
+  appBarEditDialog: {
+    position: 'relative',
+    backgroundColor: PRIMARY
+  },
+  title: {
+    marginLeft: theme.spacing(1),
+    flex: 1
+  },
+  textField: {
+    marginRight: '12%'
+  },
+  multilineText: {
+    marginRight: '15%'
+  },
+  formControl: {
+    margin: theme.spacing(4),
+    minWidth: 120,
+    marginLeft: '4.5%'
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  }
 }));
 
 export default useStyles;

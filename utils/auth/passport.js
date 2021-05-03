@@ -29,7 +29,7 @@ passport.use(
         }
 
         const userWithoutPass = user.toObject();
-        delete userWithoutPass.role;
+        //delete userWithoutPass.role;
         delete userWithoutPass.password; // delete user's password for security
 
         return onComplete(null, userWithoutPass, {
@@ -59,7 +59,6 @@ passport.use(
         }
         const passLessUser = user.toObject();
         delete passLessUser.password;
-        delete passLessUser.role;
 
         return onComplete(null, passLessUser);
       } catch (err) {

@@ -15,6 +15,13 @@ query products($filter: FilterInput) {
       publicId
       responsiveBreakpoints
     }
+    storeInfo {
+      price
+  available
+  quantitySold
+  orderOrPreorder
+  deliveryType
+    }
     comments {
       id
       content
@@ -36,6 +43,13 @@ export const PRODUCT = gql`
         url
         publicId
         responsiveBreakpoints
+      }
+      storeInfo {
+        price
+    available
+    quantitySold
+    orderOrPreorder
+    deliveryType
       }
       comments {
         id
