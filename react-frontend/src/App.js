@@ -10,6 +10,7 @@ import Login from './components/auth/Login';
 import Home from './components/home/Home';
 import AdminPanel from './components/users/AdminPanel';
 import Notification from './ui-utils/Notification';
+import ProgressBar from './ui-utils/ProgressBar';
 import { USER } from './requests/queries';
 import NavBar from './components/auth/NavBar';
 import useStyles from './ui-utils/globalStyles'
@@ -54,14 +55,13 @@ const App = () => {
     client.resetStore();
   };
 
-  if (false) {
-    return <div>loading...</div>;
+  if (loading) {
+    return <ProgressBar />;
   }
 
-  const padding = { padding: 10 };
   return (
     <Container>
-      <div>
+      <div className={classes.appBar}>
         <NavBar
           data={data}
           loading={loading}

@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React, { useState } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import UploadFiles from './UploadFiles';
@@ -7,9 +7,7 @@ import ProgressBar from '../../ui-utils/ProgressBar';
 import UnPublished from './UnPublished';
 import Published from './Published';
 import useStyles from '../../ui-utils/globalStyles';
-import StoreItems from './StoreItems';
-
-
+import { Button } from '@material-ui/core';
 
 const AdminPanel = ({ user, token, setNotice, setProducts }) => {
   const unPublishedProducts = useQuery(PRODUCTS, {
@@ -20,16 +18,15 @@ const AdminPanel = ({ user, token, setNotice, setProducts }) => {
     variables: { filter: { key: 'published', value: true } }
   });
 
-  const storeItems = useQuery(PRODUCTS, {
-    variables: {tag: 'store' }
-  });
-
   const classes = useStyles();
+
   console.log('published', publishedProducts);
   console.log('unpublished', unPublishedProducts);
 
   if ((user || token) && user?.role === user?.roleValue) {
-    if (publishedProducts.loading || unPublishedProducts.loading) return <ProgressBar />;
+    if (publishedProducts.loading || unPublishedProducts.loading)
+      return <ProgressBar />;
+
     return (
       <div>
         <div className={classes.upload}>
@@ -37,26 +34,21 @@ const AdminPanel = ({ user, token, setNotice, setProducts }) => {
         </div>
         <div className={classes.subnav}>
           <Link className={classes.subnavlinks} to="/admin/unpublished-items">
-            Unpublished
+            <Button className={classes.subnavBtn}>Unpublished Items</Button>
           </Link>
           <Link className={classes.subnavlinks} to="/admin/published-items">
-            Published
-          </Link>
-          <Link className={classes.subnavlinks} to="/admin/store-items">
-            Store Items
+            <Button  className={classes.subnavBtn}>published Items</Button>
           </Link>
         </div>
 
         <Switch>
           <Route path="/admin/unpublished-items">
-          <UnPublished unPublishedProducts={unPublishedProducts?.data?.products} />
-         
+            <UnPublished
+              unPublishedProducts={unPublishedProducts?.data?.products}
+            />
           </Route>
           <Route path="/admin/published-items">
-           <Published publishedProducts={publishedProducts?.data?.products} />
-          </Route>
-          <Route path="/admin/store-items">
-           <StoreItems storeItems={storeItems?.data?.products} />
+            <Published publishedProducts={publishedProducts?.data?.products} />
           </Route>
         </Switch>
       </div>

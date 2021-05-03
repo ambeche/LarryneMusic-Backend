@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductList from './ProductList';
 
-const UnPublished = ({unPublishedProducts}) => {
+const UnPublished = ({unPublishedProducts, setProduct}) => {
   
   return (
     <>

@@ -3,6 +3,7 @@ import {
   ACCENT,
   ACCENT_TWO,
   PRIMARY,
+  PRIMARY_DARK,
   PRIMARY_LIGHT
 } from '../assets/colors';
 
@@ -10,6 +11,23 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     marginTop: '15%'
+  },
+  appBar: {
+    top: '0%',
+    position: 'fixed',
+    maxHeight: '15%',
+    marginRight: '6%',
+    
+    width: '96%',
+    zIndex: 20,
+    backgroundColor: PRIMARY,
+    
+  },
+  appBarLink: {
+    padding: 10,
+    color:'#ffffff',
+    textDecoration: 'none',
+    
   },
   footer: {
     bottom: '2%',
@@ -26,13 +44,13 @@ const useStyles = makeStyles((theme) => ({
   media: {
     maxHeight: 200,
     marginLeft: '4%',
-    marginTop: '4%'
+    marginTop: '4%',
   },
-  mediaRoot: {},
+  mediaRoot: {zIndex: -1},
   upload: {
     position: 'fixed',
     right: '2%',
-    top: '7%',
+    top: '12%',
     color: ACCENT
   },
   actions: {
@@ -71,15 +89,21 @@ const useStyles = makeStyles((theme) => ({
   subnav: {
     padding: 10,
     position: 'fixed',
-    left: '1%',
-    top: '7%',
+    left: '0%',
+    top: '11%',
     color: PRIMARY_LIGHT
   },
   subnavlinks: {
+    textDecoration: 'none',
     padding: 10,
-    color: PRIMARY_LIGHT,
-    zIndex: 9,
-  }
+    zIndex: 20,
+  },
+  subnavBtn: {
+   
+    color: ACCENT_TWO,
+    zIndex: 20,
+    
+  },
 }));
 
 export default useStyles;

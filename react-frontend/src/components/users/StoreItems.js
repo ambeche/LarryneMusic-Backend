@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductList from './ProductList';
 
-const StoreItems = ({storeItems}) => {
+const StoreItems = ({storeItems, setProduct}) => {
   
   return (
     <>

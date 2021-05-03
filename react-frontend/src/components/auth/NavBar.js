@@ -1,20 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import useStyles from '../../ui-utils/globalStyles';
 
 const NavBar = ({ profile, user, data, handleLogout, called }) => {
-  const padding = { padding: 10 };
+  const classes = useStyles();
+
   if (profile) {
     return (
       <>
-        <Link style={padding} to="/">
-          LarryneMusic
+        <Link className={classes.appBarLink} to="/">
+          <Button className={classes.appBarLink} onClick={handleLogout}>
+            LarryneMusic
+          </Button>
         </Link>
-        <Link style={padding} to="/photos">
-          Photos
+        <Link className={classes.appBarLink} to="/photos">
+          <Button className={classes.appBarLink} onClick={handleLogout}>
+            photos
+          </Button>
         </Link>
-        <Link style={padding} to="/store">
-          Store
+        <Link className={classes.appBarLink} to="/store">
+          <Button className={classes.appBarLink} onClick={handleLogout}>
+            store
+          </Button>
         </Link>
         {
           // only appears if user is admin
@@ -25,21 +33,25 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
           // stored in storage
 
           data?.user?.roleValue ? (
-            <Link style={padding} to="/admin">
-              {data?.user?.fullname ?? user?.fullname}
+            <Link className={classes.appBarLink} to="/admin">
+              <Button className={classes.appBarLink} >
+                {data?.user?.fullname ?? user?.fullname}
+              </Button>
             </Link>
           ) : null
         }
         {!data?.user?.roleValue && (
           <Link style={{ padding: 10 }} to="/profile">
-            {data?.user?.fullname ?? user?.fullname}
+            <Button className={classes.appBarLink} >
+              {data?.user?.fullname ?? user?.fullname}
+            </Button>
           </Link>
         )}
         {
           // logs out the user and redirect to the home page
           data && called && (
-            <Link style={padding} to="/">
-              <Button onClick={handleLogout} color="primary">
+            <Link className={classes.appBarLink} to="/">
+              <Button className={classes.appBarLink} onClick={handleLogout}>
                 Log out
               </Button>
             </Link>
@@ -48,8 +60,10 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
         {
           // hidden upon successfull login
           !user && !data && (
-            <Link style={padding} to="/login">
-              Login
+            <Link className={classes.appBarLink} to="/login">
+              <Button className={classes.appBarLink} >
+                login
+              </Button>
             </Link>
           )
         }
@@ -59,20 +73,28 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
 
   return (
     <>
-      <Link style={padding} to="/">
-        LarryneMusic
+      <Link className={classes.appBarLink} to="/">
+        <Button className={classes.appBarLink}>
+          LarryneMusic
+        </Button>
       </Link>
-      <Link style={padding} to="/photos">
-        Photos
+      <Link className={classes.appBarLink} to="/photos">
+        <Button className={classes.appBarLink} >
+          photos
+        </Button>
       </Link>
-      <Link style={padding} to="/store">
-        Store
+      <Link className={classes.appBarLink} to="/store">
+        <Button className={classes.appBarLink} >
+          store
+        </Button>
       </Link>
       {
         // hidden upon successfull login
         !user && !data && (
-          <Link style={padding} to="/login">
-            Login
+          <Link className={classes.appBarLink} to="/login">
+            <Button className={classes.appBarLink} >
+              login
+            </Button>
           </Link>
         )
       }

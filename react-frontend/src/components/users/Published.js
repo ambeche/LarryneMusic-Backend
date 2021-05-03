@@ -1,11 +1,11 @@
 import React from 'react';
 import ProductList from './ProductList';
 
-const Published = ({publishedProducts}) => {
+const Published = ({publishedProducts,}) => {
   
   return (
     <>
-    <ProductList products={publishedProducts} />
+    <ProductList products={publishedProducts}  />
     </>
   )
 }
