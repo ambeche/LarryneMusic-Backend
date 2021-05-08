@@ -25,6 +25,16 @@ import auth from './utils/auth/auth.js';
     });
 
     const app = express();
+    app.use((req, res, next) => {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+      if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+      }
+      next();
+    });
 
     app.use(cors() );
     app.use(
@@ -33,6 +43,8 @@ import auth from './utils/auth/auth.js';
         contentSecurityPolicy: false
       })
     );
+
+    app.use(express.static('./react-frontend/build'));
 
     server.applyMiddleware({ app, path: '/graphql' });
 
@@ -45,6 +57,7 @@ import auth from './utils/auth/auth.js';
     } else {
       console.log('localhost');
       localhost(app, config.HTTPS_PORT, config.PORT );
+      console.log('localhost', config.HTTPS_PORT, config.PORT);
     }
        })
    } catch (e) {

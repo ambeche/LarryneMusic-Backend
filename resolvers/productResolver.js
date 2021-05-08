@@ -49,8 +49,8 @@ export default {
 
           // verify if product exist in db for the modification
           if (pdt._id) {
-            const updatedPdt = await Product.findOneAndUpdate(
-              args.productId,
+            const updatedPdt = await Product.findByIdAndUpdate(
+              args.id,
               args,
               {
                 new: true
@@ -94,7 +94,7 @@ export default {
               await author.save();
             }
 
-            await Product.findByIdAndDelete(args.productId);
+            await Product.findByIdAndDelete(args.id);
 
             return `Successfully deleted ${pdtToDelete.title} with all its accociated likes and comments`;
           }

@@ -3,7 +3,7 @@ import env from 'dotenv';
 
 env.config();
 const PORT = process.env.PORT;
-const HTTP_PORT = process.env.HTTP_PORT;
+const HTTPS_PORT = process.env.HTTPS_PORT;
 const MONGODB_URI = process.env.MONGODB_URI;
 const SECRET = process.env.SECRET;
 const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME;
@@ -16,7 +16,7 @@ const NODE_ENV=process.env.NODE_ENV
 
 export default {
   PORT,
-  HTTP_PORT,
+  HTTPS_PORT,
   MONGODB_URI,
   SECRET,
   CLOUDINARY_API_KEY,

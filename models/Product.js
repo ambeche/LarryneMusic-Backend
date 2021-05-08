@@ -44,7 +44,13 @@ const productSchema = new Schema(
     },
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
-    likes: Number
+    numberOfComments: {
+      type: Number,
+      get: function () { this.comments.reduce( (a,b) => a + b, 0)}
+    },
+    likes: {
+      type: Number, default: 0,
+    } 
   },
   { timestamps: true } 
 );

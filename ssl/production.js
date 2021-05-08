@@ -13,7 +13,7 @@ const production = (app, port) => {
     }
   });
 
-  app.listen(process.env.PORT);
+  app.listen(port);
 };
 
 export default production;

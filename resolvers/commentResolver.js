@@ -4,6 +4,7 @@ import Comment from '../models/Comment.js';
 import User from '../models/User.js';
 import { dateValidator, verifyUser } from '../resolvers/resolverHelpers.js';
 import { AuthenticationError } from 'apollo-server-express';
+import Product from '../models/Product.js';
 
 export default {
   Mutation: {
@@ -13,20 +14,31 @@ export default {
       try {
         const { content, commentedItem } = args;
         console.log('cmt', content);
-        const newComment = Comment({
+        const newComment = new Comment({
           content,
-          commentedProducts: [commentedItem.commentedid],
+          commentedProducts: [commentedItem.commentedProductId],
           commentedComments: [commentedItem.commentedCommentId],
           author: user._id
         });
         const createdComment = await newComment.save();
+        // query associated docs and add relation
+        const commentedpdt = await Product.findById(commentedItem.commentedProductId);
+        const commentedCmt = await Comment.findById(commentedItem.commentedCommentId);
+
+        if (commentedpdt) {
+          commentedpdt.comments = commentedpdt.comments.concat(createdComment._id);
+          commentedpdt.save();
+        }else if (commentedCmt) {
+          commentedCmt.comments = commentedCmt.comments.concat(createdComment._id);
+          commentedCmt.save();
+        }
 
         // finds the newly created comment by id, populates all its associated fields
         // and excludes user's credentials from the returned value.
         const resolvedComment = await Comment.findSortAndPopulateComment({
           _id: createdComment._id
         });
-
+        console.log('cmt', resolvedComment);
         return resolvedComment;
       } catch (err) {
         console.log(`add comment error: ${err.message}`);

@@ -39,6 +39,7 @@ export default gql`
     published:Boolean
     createdAt: String
     updatedAt: String
+    numberOfComments: Int
     storeInfo: StoreInfo
     comments: [Comment]
     owner: User
