@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const PRODUCTS = gql`
-query products($filter: FilterInput) {
-  products(filter: $filter) {
+query products($filter: FilterInput, $sortby: String) {
+  products(filter: $filter, sortby: $sortby) {
     id
     title
     description
@@ -10,6 +10,7 @@ query products($filter: FilterInput) {
     priority
     published
     likes
+    numberOfComments
     image {
       url
       publicId
@@ -24,6 +25,9 @@ query products($filter: FilterInput) {
     }
     comments {
       id
+      author{
+        fullname
+      }
       content
       likes
     }
@@ -36,9 +40,11 @@ export const PRODUCT = gql`
       id
       title
       description
+      published
       tag
       priority
       likes
+      numberOfComments
       image {
         url
         publicId
@@ -53,6 +59,10 @@ export const PRODUCT = gql`
       }
       comments {
         id
+        author{
+          fullname
+          email
+        }
         content
         likes
       }

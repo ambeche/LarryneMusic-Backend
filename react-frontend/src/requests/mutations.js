@@ -20,6 +20,7 @@ export const UPLOAD_FILES_OF_PRODUCT = gql`
       priority
       published
       likes
+      numberOfComments
       image {
         url
         publicId
@@ -44,6 +45,7 @@ export const UPLOAD_FILES_OF_PRODUCT = gql`
 export const MODIFY_PRODUCT = gql`
   mutation ModifyProduct(
     $id: ID!
+    $published: Boolean
     $title: String
     $description: String
     $tag: String
@@ -54,6 +56,7 @@ export const MODIFY_PRODUCT = gql`
     modifyProduct(
       id: $id
       title: $title
+      published: $published
       description: $description
       tag: $tag
       priority: $priority
@@ -66,6 +69,7 @@ export const MODIFY_PRODUCT = gql`
       tag
       priority
       likes
+      numberOfComments
       updatedAt
       image {
         url

@@ -22,22 +22,46 @@ import {
   Select,
   InputLabel
 } from '@material-ui/core';
-import useStyles from '../../ui-utils/globalStyles';
 import { MODIFY_PRODUCT } from '../../requests/mutations';
-import { PRODUCTS } from '../../requests/queries';
+import styles from '../../ui-utils/globalStyles';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  ...styles,
+  title: {
+    marginLeft: theme.spacing(1),
+    flex: 1
+  },
+  textField: {
+    marginRight: '12%'
+  },
+  multilineText: {
+    marginRight: '15%'
+  },
+  formControl: {
+    margin: theme.spacing(4),
+    minWidth: 120,
+    marginLeft: '4.5%'
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  }
+}));
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const EditProduct = ({ dialog, product, setDialog, setNotice }) => {
+const EditProduct = ({ dialog, product, setDialog, setNotice, refetch }) => {
+  console.log('pdt', product);
+
   const [tag, setTag] = useState('');
   const [priority, setPriority] = useState(2);
-  const [available, setAvailable] = useState(true);
-  const [published, setPublished] = useState(true);
-  const [title, setTitle] = useState();
+  const [available, setAvailable] = useState('');
+  const [published, setPublished] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState('');
   const [deliveryType, setDeliveryType] = useState('');
   const history = useHistory();
   const classes = useStyles();
@@ -47,39 +71,26 @@ const EditProduct = ({ dialog, product, setDialog, setNotice }) => {
   const [edit] = useMutation(MODIFY_PRODUCT, {
     onCompleted: (data) => {
       console.log('edited pdt', data.modifyProduct);
-      setDialog(false);
+      refetch();
+      setDialog(false); // close the edit dialog
       setNotice({
         message: `Item "${data.modifyProduct.title}" was successfully updated`,
         severity: 'success'
       });
-      history.push('/admin/unpublished-items');
-      window.location.reload(false);
+      data.modifyProduct.published
+        ? history.push('/admin/published-items')
+        : history.push('/admin/unpublished-items');
     },
     onError: (error) => {
-      setNotice({
-        message: error?.graphQLErrors[0]?.message,
-        severity: 'error'
-      });
       console.log('erro', error);
-    },
-    // update apollo client cache
-    update: (store, response) => {
-      try{const dataInStore = store.readQuery({ query: PRODUCTS })
-      store.writeQuery({
-        query: PRODUCTS,
-        data: {
-          ...dataInStore,
-          products: [ ...dataInStore.products, response.data.modifyProduct ]
-        }
-      })} catch (e) {
-        console.log('cache update error', e.message);
-        
-      }
     }
   });
 
   const handleClose = () => {
     setDialog(false);
+  };
+  const validateInput = (field) => {
+    return field !== '' ? field : product.field;
   };
 
   const handleUpdate = (pdt) => {
@@ -87,17 +98,18 @@ const EditProduct = ({ dialog, product, setDialog, setNotice }) => {
       variables: {
         id: pdt.id,
         storeInfo: {
-          price,
-          available,
-          deliveryType
+          price: validateInput(price),
+          available: validateInput(available),
+          deliveryType: validateInput(deliveryType)
         },
-        published,
-        description,
-        title,
-        tag,
-        priority
+        published: validateInput(published),
+        description: validateInput(description),
+        title: validateInput(title),
+        tag: validateInput(tag),
+        priority: validateInput(priority)
       }
     });
+    console.log('pdt edit', pdt);
   };
 
   if (dialog) {
@@ -210,7 +222,9 @@ const EditProduct = ({ dialog, product, setDialog, setNotice }) => {
               <ListItemText
                 primary="delivery type"
                 secondary={`${
-                  deliveryType ? deliveryType : product.storeInfo.deliveryType
+                  deliveryType !== null
+                    ? deliveryType
+                    : product.storeInfo.deliveryType
                 }`}
               />
             </ListItem>

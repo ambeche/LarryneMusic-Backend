@@ -1,11 +1,19 @@
 import React from 'react';
-import { Snackbar, SnackbarContent } from '@material-ui/core';
-import { ERROR, SUCCESS } from '../assets/colors';
+import {useHistory} from 'react-router-dom';
+import { Snackbar, SnackbarContent, Button } from '@material-ui/core';
+import { ERROR, PRIMARY_DARK, SUCCESS } from '../assets/colors';
 
 const Notification = ({ notice }) => {
-  const color = notice?.severity === 'success' ? SUCCESS : ERROR;
+  const history = useHistory();
+  const color = notice?.severity === 'success' ? SUCCESS : 'info' ? PRIMARY_DARK : ERROR;
 
   if (!notice?.message) return null;
+
+  const action = (
+    <Button color="secondary" size="small" onClick={() => history.push('/login')}>
+      Login/Sign up
+    </Button>
+  );
 
   return (
     <div>
@@ -20,6 +28,7 @@ const Notification = ({ notice }) => {
             backgroundColor: color
           }}
           message={<span id="client-snackbar">{notice?.message}</span>}
+         action={ notice?.severity === 'info' ? action : null}
         />
       </Snackbar>
     </div>

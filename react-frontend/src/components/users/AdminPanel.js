@@ -6,12 +6,15 @@ import { PRODUCTS } from '../../requests/queries';
 import ProgressBar from '../../ui-utils/ProgressBar';
 import UnPublished from './UnPublished';
 import Published from './Published';
-import useStyles from '../../ui-utils/globalStyles';
 import { Button } from '@material-ui/core';
+import styles from '../../ui-utils/globalStyles';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => styles);
 
 const AdminPanel = ({ user, token, setNotice, setProducts }) => {
   const unPublishedProducts = useQuery(PRODUCTS, {
-    variables: { filter: { key: 'published', value: false } }
+    variables: { filter: { key: 'published', value: false }, sortyby: '-updatedAt' }
   });
 
   const publishedProducts = useQuery(PRODUCTS, {
@@ -37,7 +40,7 @@ const AdminPanel = ({ user, token, setNotice, setProducts }) => {
             <Button className={classes.subnavBtn}>Unpublished Items</Button>
           </Link>
           <Link className={classes.subnavlinks} to="/admin/published-items">
-            <Button  className={classes.subnavBtn}>published Items</Button>
+            <Button className={classes.subnavBtn}>published Items</Button>
           </Link>
         </div>
 
@@ -45,10 +48,18 @@ const AdminPanel = ({ user, token, setNotice, setProducts }) => {
           <Route path="/admin/unpublished-items">
             <UnPublished
               unPublishedProducts={unPublishedProducts?.data?.products}
-              setNotice={setNotice}/>
+              refetch={unPublishedProducts?.refetch}
+              setNotice={setNotice}
+              user={user}
+            />
           </Route>
           <Route path="/admin/published-items">
-            <Published publishedProducts={publishedProducts?.data?.products} setNotice={setNotice} />
+            <Published
+              publishedProducts={publishedProducts?.data?.products}
+              refetch={publishedProducts?.refetch}
+              setNotice={setNotice}
+              user={user}
+            />
           </Route>
         </Switch>
       </div>

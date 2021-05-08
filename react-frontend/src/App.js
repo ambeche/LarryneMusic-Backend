@@ -4,7 +4,7 @@ import { Container, Button } from '@material-ui/core';
 
 import { useApolloClient, useQuery } from '@apollo/client';
 import { PRODUCTS } from './requests/queries';
-import Photos from './components/photos/Photos';
+import Photos from './components/photos/PhotoAlbum';
 import Store from './components/store/Store';
 import Login from './components/auth/Login';
 import Home from './components/home/Home';
@@ -13,7 +13,11 @@ import Notification from './ui-utils/Notification';
 import ProgressBar from './ui-utils/ProgressBar';
 import { USER } from './requests/queries';
 import NavBar from './components/auth/NavBar';
-import useStyles from './ui-utils/globalStyles'
+import PhotoAlbum from './components/photos/PhotoAlbum';
+import styles from './ui-utils/globalStyles';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => styles);
 
 const App = () => {
   const [skip, setSkip] = useState(false);
@@ -31,11 +35,11 @@ const App = () => {
     if (!loading && !data) setSkip(true);
   }, [loading, data]);
 
- console.log('loggedIn', data);
+  console.log('loggedIn', data);
 
- useEffect( () =>{
-    setProfile(true)
-  }, [profile, user, loading])
+  useEffect(() => {
+    setProfile(true);
+  }, [profile, user, loading]);
 
   const notify = (message) => {
     setNotice(message);
@@ -43,8 +47,6 @@ const App = () => {
       setNotice(null);
     }, 8000);
   };
-
- 
 
   const handleLogout = () => {
     setSkip(true);
@@ -73,7 +75,7 @@ const App = () => {
 
       <Switch>
         <Route path="/photos">
-          <Photos />
+          <PhotoAlbum setNotice={notify} user={data?.user} />
         </Route>
         <Route path="/store">
           <Store />
@@ -90,9 +92,6 @@ const App = () => {
         <Route path="/login">
           <Login setUser={setUser} setNotice={notify} setProfile={setProfile} />
         </Route>
-        <Route path="/">
-          <Home />
-        </Route>
       </Switch>
       <Notification notice={notice} />
       <div className={classes.footer}>
@@ -104,4 +103,3 @@ const App = () => {
 };
 
 export default App;
-//{result.data.products.map(p => <img alt='' src={p.image.url} width='400'/>)}

@@ -1,11 +1,14 @@
-import { React, useState } from 'react';
+import { React } from 'react';
 import {
   Grid} from '@material-ui/core';
-import useStyles from '../../ui-utils/globalStyles'
 import ProductItem from './ProductItem';
+import styles from '../../ui-utils/globalStyles';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => styles);
 
 
-const ProductList = ({ products, setNotice }) => {
+const ProductList = ({ products, setNotice, refetch, user }) => {
   const classes = useStyles();
 
   return (
@@ -18,7 +21,7 @@ const ProductList = ({ products, setNotice }) => {
         alignContent="center"
       >
         {products?.map((pdt) => (
-          <ProductItem key={pdt.id} product={pdt} setNotice={setNotice}/>
+          <ProductItem key={pdt.id} product={pdt} refetch={refetch} setNotice={setNotice} user={user}/>
         ))}
       </Grid>
     </div>

@@ -1,11 +1,11 @@
 import React from 'react';
 import ProductList from './ProductList';
 
-const UnPublished = ({unPublishedProducts, setNotice}) => {
+const UnPublished = ({unPublishedProducts, setNotice, refetch, user}) => {
   
   return (
     <>
-    <ProductList products={unPublishedProducts}  setNotice={setNotice}/>
+    <ProductList products={unPublishedProducts}  refetch={refetch} setNotice={setNotice} user={user}/>
     </>
   )
 }

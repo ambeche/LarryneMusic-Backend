@@ -1,11 +1,11 @@
 import React from 'react';
 import ProductList from './ProductList';
 
-const Published = ({publishedProducts, setNotice}) => {
+const Published = ({publishedProducts, refetch, setNotice, user}) => {
   
   return (
     <>
-    <ProductList products={publishedProducts} setNotice={setNotice}  />
+    <ProductList products={publishedProducts} refetch={refetch} setNotice={setNotice} user={user} />
     </>
   )
 }

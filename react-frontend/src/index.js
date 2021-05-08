@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-
-import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import {
@@ -24,7 +22,7 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 // client configured with createUploadLink to allow multipart/files uploads
-const uploadLink = createUploadLink({ uri: 'http://localhost:3001/graphql' })
+const uploadLink = createUploadLink({ uri: '/graphql' })
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

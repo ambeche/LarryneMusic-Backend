@@ -1,16 +1,23 @@
-import { makeStyles } from '@material-ui/core/styles';
 import {
   ACCENT,
   ACCENT_TWO,
   PRIMARY,
   PRIMARY_DARK,
-  PRIMARY_LIGHT
+  PRIMARY_LIGHT,
+  WHITE
 } from '../assets/colors';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   root: {
     flexGrow: 1,
     marginTop: '15%'
+
+  },
+  photosRoot: {
+    flexGrow: 1,
+    marginTop: '6%',
+    
+    
   },
   appBar: {
     top: '0%',
@@ -25,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarLink: {
     padding: 10,
-    color:'#ffffff',
+    color: WHITE,
     textDecoration: 'none',
     
   },
@@ -36,17 +43,17 @@ const useStyles = makeStyles((theme) => ({
     zIndex: -1,
     textJustify: 'center',
   },
-  paper: {
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-  },
+  // admin panel
   media: {
     maxHeight: 200,
     marginLeft: '4%',
     marginTop: '4%',
   },
-  mediaRoot: {zIndex: -1},
+  photoPageMedia: {
+    maxHeight: '80%',
+  },
+  mediaRoot: {zIndex: 3,
+  },
   upload: {
     position: 'fixed',
     right: '2%',
@@ -86,6 +93,21 @@ const useStyles = makeStyles((theme) => ({
   btnEdit: {
     color: ACCENT_TWO
   },
+
+  photoBadge: {
+    color: PRIMARY,
+    padding: 4,
+    alignContent: 'center'
+  },
+  photoBagdeIcons: {
+    color: ACCENT_TWO
+  },
+  photoActionBtn: {
+    color:PRIMARY_DARK
+  },
+  like: {
+    color: ACCENT_TWO
+  },
   subnav: {
     padding: 10,
     position: 'fixed',
@@ -109,24 +131,40 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     backgroundColor: PRIMARY
   },
-  title: {
-    marginLeft: theme.spacing(1),
-    flex: 1
+  photoDialogAppBar: {
+    position: 'relative',
+    backgroundColor: PRIMARY,
+    maxHeight: '4%',
   },
-  textField: {
-    marginRight: '12%'
-  },
-  multilineText: {
-    marginRight: '15%'
-  },
-  formControl: {
-    margin: theme.spacing(4),
-    minWidth: 120,
-    marginLeft: '4.5%'
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2)
-  }
-}));
+  commentDialog: {
+    marginLeft: '95%',
+    marginBottom: '3.2%'
 
-export default useStyles;
+  },
+  commentDialogRoot: {
+    overflowX: 'hidden',
+  },
+  photoDetailsPic: {
+    overflowX: 'hidden',
+  },
+  photoDescription: {
+   position:  'fixed',
+   maxWidth: '50%',
+   top: '6%',
+   right: '4%'
+  },
+  // login form
+  login: {
+    marginTop: '10%',
+    marginLeft: '40%',
+    
+  },
+  loginBtn: {
+    marginTop: '1%',
+    backgroundColor: PRIMARY_DARK
+    
+  }
+
+};
+
+export default styles;

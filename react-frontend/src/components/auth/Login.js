@@ -3,16 +3,25 @@ import { useMutation } from '@apollo/client';
 import { TextField, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { LOGIN } from '../../requests/mutations';
+import styles from '../../ui-utils/globalStyles';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => styles);
 
 const Login = ({ setNotice, setUser, setProfile }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const classes = useStyles();
 
   const [login, result] = useMutation(LOGIN, {
     onCompleted: (data) => {
+      if (data.login.roleValue) {
+        history.push('/admin/unpublished-items');
+        window.location.reload(false);
+      }
       history.push('/');
-      window.location.reload(false);
+      //window.location.reload(false);
     },
     onError: (error) => {
       setNotice({
@@ -44,7 +53,7 @@ const Login = ({ setNotice, setUser, setProfile }) => {
   };
 
   return (
-    <div>
+    <div className={classes.login}>
       <h2>Login</h2>
       <form onSubmit={onSubmit}>
         <div>
@@ -66,7 +75,7 @@ const Login = ({ setNotice, setUser, setProfile }) => {
           />
         </div>
         <div>
-          <Button variant="contained" color="primary" type="submit">
+          <Button className={classes.loginBtn} variant="contained" color="primary" type="submit" >
             login
           </Button>
         </div>

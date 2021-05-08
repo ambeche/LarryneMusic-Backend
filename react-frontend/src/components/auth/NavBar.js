@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-import useStyles from '../../ui-utils/globalStyles';
+import styles from '../../ui-utils/globalStyles';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => styles);
 
 const NavBar = ({ profile, user, data, handleLogout, called }) => {
   const classes = useStyles();
@@ -9,20 +12,14 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
   if (profile) {
     return (
       <>
-        <Link className={classes.appBarLink} to="/">
-          <Button className={classes.appBarLink} >
-            LarryneMusic
-          </Button>
+        <Link className={classes.appBarLink} to="/photos">
+          <Button className={classes.appBarLink}>LarryneMusic</Button>
         </Link>
         <Link className={classes.appBarLink} to="/photos">
-          <Button className={classes.appBarLink}>
-            photos
-          </Button>
+          <Button className={classes.appBarLink}>photos</Button>
         </Link>
         <Link className={classes.appBarLink} to="/store">
-          <Button className={classes.appBarLink} >
-            store
-          </Button>
+          <Button className={classes.appBarLink}>store</Button>
         </Link>
         {
           // only appears if user is admin
@@ -34,7 +31,7 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
 
           data?.user?.roleValue ? (
             <Link className={classes.appBarLink} to="/admin/unpublished-items">
-              <Button className={classes.appBarLink} >
+              <Button className={classes.appBarLink}>
                 {data?.user?.fullname ?? user?.fullname}
               </Button>
             </Link>
@@ -42,7 +39,7 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
         }
         {!data?.user?.roleValue && (
           <Link style={{ padding: 10 }} to="/profile">
-            <Button className={classes.appBarLink} >
+            <Button className={classes.appBarLink}>
               {data?.user?.fullname ?? user?.fullname}
             </Button>
           </Link>
@@ -61,9 +58,7 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
           // hidden upon successfull login
           !user && !data && (
             <Link className={classes.appBarLink} to="/login">
-              <Button className={classes.appBarLink} >
-                login
-              </Button>
+              <Button className={classes.appBarLink}>login</Button>
             </Link>
           )
         }
@@ -73,28 +68,20 @@ const NavBar = ({ profile, user, data, handleLogout, called }) => {
 
   return (
     <>
-      <Link className={classes.appBarLink} to="/">
-        <Button className={classes.appBarLink}>
-          LarryneMusic
-        </Button>
+      <Link className={classes.appBarLink} to="/photos">
+        <Button className={classes.appBarLink}>LarryneMusic</Button>
       </Link>
       <Link className={classes.appBarLink} to="/photos">
-        <Button className={classes.appBarLink} >
-          photos
-        </Button>
+        <Button className={classes.appBarLink}>photos</Button>
       </Link>
       <Link className={classes.appBarLink} to="/store">
-        <Button className={classes.appBarLink} >
-          store
-        </Button>
+        <Button className={classes.appBarLink}>store</Button>
       </Link>
       {
         // hidden upon successfull login
         !user && !data && (
           <Link className={classes.appBarLink} to="/login">
-            <Button className={classes.appBarLink} >
-              login
-            </Button>
+            <Button className={classes.appBarLink}>login</Button>
           </Link>
         )
       }
