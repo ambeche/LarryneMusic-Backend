@@ -53,6 +53,7 @@ const styles = {
     maxHeight: '80%',
   },
   mediaRoot: {zIndex: 3,
+    
   },
   upload: {
     position: 'fixed',
@@ -160,9 +161,12 @@ const styles = {
     
   },
   loginBtn: {
-    marginTop: '1%',
+    marginTop: '4%',
     backgroundColor: PRIMARY_DARK
     
+  },
+  registerBtn: {
+    color: ACCENT_TWO
   }
 
 };

@@ -74,9 +74,6 @@ const App = () => {
       </div>
 
       <Switch>
-        <Route path="/photos">
-          <PhotoAlbum setNotice={notify} user={data?.user} />
-        </Route>
         <Route path="/store">
           <Store />
         </Route>
@@ -91,6 +88,9 @@ const App = () => {
         </Route>
         <Route path="/login">
           <Login setUser={setUser} setNotice={notify} setProfile={setProfile} />
+        </Route>
+        <Route path="/">
+          <PhotoAlbum setNotice={notify} user={data?.user} />
         </Route>
       </Switch>
       <Notification notice={notice} />

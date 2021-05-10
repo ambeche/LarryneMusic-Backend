@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { LOGIN } from '../../requests/mutations';
 import styles from '../../ui-utils/globalStyles';
 import { makeStyles } from '@material-ui/core/styles';
+import SignUp from './SignUp';
 
 const useStyles = makeStyles(() => styles);
 
@@ -12,6 +13,8 @@ const Login = ({ setNotice, setUser, setProfile }) => {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newUser, setNewUser] = useState(null);
+  const [showLogin, setShowLogin] = useState(true);
   const classes = useStyles();
 
   const [login, result] = useMutation(LOGIN, {
@@ -21,7 +24,7 @@ const Login = ({ setNotice, setUser, setProfile }) => {
         window.location.reload(false);
       }
       history.push('/');
-      //window.location.reload(false);
+      window.location.reload(false);
     },
     onError: (error) => {
       setNotice({
@@ -52,36 +55,63 @@ const Login = ({ setNotice, setUser, setProfile }) => {
     setPassword('');
   };
 
-  return (
-    <div className={classes.login}>
-      <h2>Login</h2>
-      <form onSubmit={onSubmit}>
-        <div>
-          <TextField
-            label="email"
-            type="email"
-            autoComplete="current-email"
-            required
-            onChange={({ target }) => setEmail(target.value)}
-          />
-        </div>
-        <div>
-          <TextField
-            label="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <div>
-          <Button className={classes.loginBtn} variant="contained" color="primary" type="submit" >
-            login
-          </Button>
-        </div>
-      </form>
-    </div>
-  );
+  const toggleLoginForm = () => {
+    if (showLogin) {
+      return (
+        <>
+          <h2>Login</h2>
+          <form onSubmit={onSubmit}>
+            <div>
+              <TextField
+                label="email"
+                type="email"
+                autoComplete="current-email"
+                required
+                onChange={({ target }) => setEmail(target.value)}
+              />
+            </div>
+            <div>
+              <TextField
+                label="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                onChange={({ target }) => setPassword(target.value)}
+              />
+            </div>
+            <div>
+              <Button
+                className={classes.loginBtn}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                login
+              </Button>
+            </div>
+          </form>
+          <div>
+            Don't have an account?
+            <Button
+              className={classes.registerBtn}
+              onClick={() => setShowLogin(false)}
+            >
+              Register
+            </Button>
+          </div>
+        </>
+      );
+    }
+    return (
+      <SignUp
+        setNotice={setNotice}
+        setNewUser={setNewUser}
+        setShowLogin={setShowLogin}
+      />
+    );
+  };
+
+  return <div className={classes.login}>{toggleLoginForm()}</div>;
 };
 
 export default Login;
