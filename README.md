@@ -40,12 +40,12 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
  * React Router
  * Material UI
 
-# [Link to UI](https://larryne-music.herokuapp.com/)
+# [Link to UI](https://larryne-music.herokuapp.com)
    **NOTE:  The front end is deployed to Heroku. Please wait for a moment for the server to wake up from sleep**: 
    - login with admin credentials [email: admin.test@larryne.com, password: test] to access and test the admin panel, upload files and edit.
 
 # Test The GraphQl Backend
-## [GraphQL API Link] (https://tamanji.jelastic.metropolia.fi/graphql)
+## [GraphQL API Link](https://tamanji.jelastic.metropolia.fi/graphql)
 
 * You can test the API with Postman or preferably Firecamp, as it offers file uploads as well.
 ## Mutations
