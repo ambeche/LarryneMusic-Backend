@@ -13,12 +13,23 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
 
 **Role based authorization is implemented to grant admin-only access.**
 
+# Users and Features
+  * A Guest user can browse photos but cannot like or comment an item
+  * Any user can make an order on the store - available in the backend, not yet implemented in the frontend
+  * An Authenticated user can like a photo or comment on a photo but cannot upload a photo
+  * Only the author of a comment can delete the comment 
+  * The Admin user can access the admin panel, upload files, delete or edit content.
+  
+
 # Frameworks and Packages used in the App
 
 ## Backend
   * Express.js with Node.js
   * apollo-server-express
   * Passport.js local and jwt strategies with Jsonwebtoken for authentication
+  * bcrypt
+  * dotenv
+  * mongoDB with Mongoose
   * Cloudinary Node.js SDK for file uploads with Graphql Upload
   * apollo-constraint-directive for server validation
 
@@ -29,12 +40,12 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
  * React Router
  * Material UI
 
-# [Front-end](https://tamanji.jelastic.metropolia.fi/)
- *NOTE:  Due to crashes and bugs, the front end is incomplete: 
+# [Link to UI](https://larryne-music.herokuapp.com/)
+   **NOTE:  The front end is deployed to Heroku. Please wait for a moment for the server to wake up from sleep**: 
    - login with admin credentials [email: admin.test@larryne.com, password: test] to access and test the admin panel, upload files and edit.
 
 # Test The GraphQl Backend
-## [API Link](https://tamanji.jelastic.metropolia.fi/graphql)
+## [GraphQL API Link] (https://tamanji.jelastic.metropolia.fi/graphql)
 
 * You can test the API with Postman or preferably Firecamp, as it offers file uploads as well.
 ## Mutations
