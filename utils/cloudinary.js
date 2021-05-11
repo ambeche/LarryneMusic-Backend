@@ -45,6 +45,9 @@ const uploadToCloudinaryAndMongoDB = (createReadStream, filename, mimetype) => {
             image: {
               publicId: result.public_id,
               url: result.secure_url,
+              height: result.height,
+              width: result.width,
+              size: result.bytes,
               responsiveBreakpoints: result.responsive_breakpoints[0]
                   .breakpoints
                   .map(

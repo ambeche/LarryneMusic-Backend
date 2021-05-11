@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 
 const Comment = ({ comment }) => {
-  console.log('comment', comment)
+  console.log('comment c', comment)
   return (
     <>
       <List>

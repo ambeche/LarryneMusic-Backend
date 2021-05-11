@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => styles);
 
 const PhotoAlbum = ({ setNotice, user }) => {
   const {data, loading, refetch} = useQuery(PRODUCTS, {
-    variables: { tag: 'photo' }
+    variables: { tag: 'photo', sortby: '-image.height'}
   });
 
   const classes = useStyles();

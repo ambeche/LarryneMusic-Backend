@@ -10,6 +10,9 @@ const productSchema = new Schema(
       publicId: String, // public_id from Cloudinary service
       url: { type: String, required: true },
       mimetype: { type: String, required: true },
+      height: Number,
+      width: Number,
+      size: Number,
       filename: String,
       // different sizes of the images to support responsive image display
       responsiveBreakpoints: [String]

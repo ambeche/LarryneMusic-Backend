@@ -8,7 +8,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import { Slide, TextField, Grid } from '@material-ui/core';
+import {
+  Slide,
+  TextField,
+  Grid
+} from '@material-ui/core';
 
 import { CREATE_COMMENT } from '../../requests/mutations';
 import Comment from './Comment';
@@ -37,10 +41,11 @@ const DetailsDialog = ({
   const classes = useStyles();
   const [open, setOpen] = useState(true);
 
+ 
   const [createComment] = useMutation(CREATE_COMMENT, {
     onCompleted: (data) => {
       setComment(data.createComment);
-      console.log('comment', data.createComment);
+      console.log('comment d', data.createComment);
       refetch();
     },
     onError: (error) => {
@@ -57,7 +62,7 @@ const DetailsDialog = ({
       createComment({
         variables: { content, commentedItem: { commentedProductId: photo.id } }
       });
-      setContent('');
+      setContent('')
       return;
     }
   };
