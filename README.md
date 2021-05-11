@@ -145,11 +145,11 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
             }
             }
         }
-        variables:    {"id": "6090cbbe8cb0e607a6bad289", "title": "hot summer", "description": "looking sexy hot hot", "tag": "photo", "priority": 1, "likes": 3, "storeInfo": {"price": 25, "deliveryType": "vinyle", "orderOrPreorder": "order", "availability": true}}
+        variables:    {"id": "6099ee632b164d0a968d55b8", "title": "hot summer", "description": "looking sexy hot hot", "tag": "photo", "priority": 1, "likes": 3, "storeInfo": {"price": 25, "deliveryType": "vinyle", "orderOrPreorder": "order", "availability": true}}
 
             //  only admin can delete
             mutation{
-            deleteProduct(id: "6090f959b6c0414243c32dcc")  
+            deleteProduct(id: "6099ee5d2b164d0a968d55a9")  
             }
 
 
@@ -158,7 +158,7 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
         mutation {
         createComment(
             content: "I like coding",
-            commentedItem: {commentedProductId:"6090cbbe8cb0e607a6bad28a"}
+            commentedItem: {commentedProductId:"6099ee632b164d0a968d55b8"}
         ){
             id
             content
@@ -238,7 +238,7 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
             estimatedDateOfDelivery:"1619429369245"
             transactionStatus: "processing"
             orderedBy:"6086cbcdabf0ed38b07ac7bf"
-            orderedProducts:[{quantity:2, product:"6090cbbe8cb0e607a6bad289"}, {quantity:5, product:"6090cbbe8cb0e607a6bad289"}]
+            orderedProducts:[{quantity:2, product:"6099ee632b164d0a968d55b8"}, {quantity:5, product:"6099ee632b164d0a968d55b8"}]
         ){
             id
             totalAmount
@@ -326,7 +326,7 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
             // only Admin is authorized to edit orders: [email: admin.test@larryne.com, password test]
             mutation {
             modifyOrder(
-                id: "609101ddb6c0414243c32dd3"
+                id: "6099e73cd6241d21845bf0e7"
                 delivered:true
                 deliveryDate:"1619429369245"
                 transactionStatus: "processing"
@@ -464,7 +464,7 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
 * product by id
 
                 {
-                product( id: "6090cbbe8cb0e607a6bad28b"){
+                product( id: "6099ee632b164d0a968d55b8"){
                         id
                         title
                         description
