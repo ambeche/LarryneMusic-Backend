@@ -30,7 +30,6 @@ const Photo = ({ photo, setNotice, user, refetch }) => {
       setLikes(data.modifyProduct.likes);
       console.log('liked photo', data.modifyProduct);
       refetch();
-      //setDialog(false);
 
       //window.location.reload(false);
     },

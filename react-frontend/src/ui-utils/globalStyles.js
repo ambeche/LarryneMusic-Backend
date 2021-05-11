@@ -38,6 +38,7 @@ const styles = {
   },
   footer: {
     bottom: '2%',
+    marginTop: '5%',
     position: 'relative',
     maxHeight: '10%',
     zIndex: -1,
@@ -53,7 +54,6 @@ const styles = {
     maxHeight: '80%',
   },
   mediaRoot: {zIndex: 3,
-    
   },
   upload: {
     position: 'fixed',
@@ -167,7 +167,13 @@ const styles = {
   },
   registerBtn: {
     color: ACCENT_TWO
-  }
+  },
+  profile: {
+    marginTop: '8%',
+  },
+  profileAvatar: {
+    backgroundColor: PRIMARY_DARK,
+  },
 
 };
 

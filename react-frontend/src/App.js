@@ -1,14 +1,12 @@
 import { React, useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Container, Button } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 import { useApolloClient, useQuery } from '@apollo/client';
-import { PRODUCTS } from './requests/queries';
-import Photos from './components/photos/PhotoAlbum';
 import Store from './components/store/Store';
 import Login from './components/auth/Login';
-import Home from './components/home/Home';
 import AdminPanel from './components/users/AdminPanel';
+import Profile from './components/users/Profile'
 import Notification from './ui-utils/Notification';
 import ProgressBar from './ui-utils/ProgressBar';
 import { USER } from './requests/queries';
@@ -85,6 +83,9 @@ const App = () => {
             products={products}
             setProducts={setProducts}
           />
+        </Route>
+        <Route path="/profile">
+          <Profile user={data?.user}/>
         </Route>
         <Route path="/login">
           <Login setUser={setUser} setNotice={notify} setProfile={setProfile} />

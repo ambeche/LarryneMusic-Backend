@@ -27,6 +27,7 @@ query products($filter: FilterInput, $sortby: String) {
       id
       author{
         fullname
+        email
       }
       content
       likes
@@ -96,6 +97,7 @@ export const USER = gql`
   query {
     user {
       id
+      email
       role
       roleValue
       fullname

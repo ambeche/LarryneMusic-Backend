@@ -4,7 +4,7 @@ import Product from '../models/Product.js';
 import Comment from '../models/Comment.js';
 import { uploadToCloudinaryAndMongoDB } from '../utils/cloudinary.js';
 import User from '../models/User.js';
-import { verifyAdminAccess } from './resolverHelpers.js';
+import { verifyAdminAccess, verifyUser } from './resolverHelpers.js';
 import { AuthenticationError } from 'apollo-server-express';
 
 export default {
@@ -43,7 +43,7 @@ export default {
     },
 
     modifyProduct: async (root, args, { user }) => {
-      if (await verifyAdminAccess(user)) {
+      if (await verifyUser(user)) {
         try {
           const pdt = await Product.findById(args.id);
 
