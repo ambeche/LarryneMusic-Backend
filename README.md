@@ -1,7 +1,7 @@
-# larryne-melh-music
+# LarryneMusic - Server
   
 # Description
-LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan base; those who enjoy the singer's music artistry, her fashion style, and her social interests. On this platform, fans can:
+LarryneMelhMusic is GraphQl server powered application for Larrynizers, Larryne Melh fan base; those who enjoy the singer's music artistry, her fashion style, and her social interests. On this platform, fans can:
 
 * Visit the “Shop Page” where they can purchase her music records, fashion
 * items or pre-order an upcoming music by the artist.
@@ -23,7 +23,7 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
 
 # Frameworks and Packages used in the App
 
-## Backend
+## Server
   * Express.js with Node.js
   * apollo-server-express
   * Passport.js local and jwt strategies with Jsonwebtoken for authentication
@@ -33,18 +33,8 @@ LarryneMelhMusic is a React web application for Larrynizers, Larryne Melh fan ba
   * Cloudinary Node.js SDK for file uploads with Graphql Upload
   * apollo-constraint-directive for server validation
 
-## Frontend
- * React
- * Apollo-Client for React
- * apollo-upload-client
- * React Router
- * Material UI
-
-# [Link to UI](https://larryne-music.herokuapp.com)
-   **NOTE:  The front end is deployed to Heroku. Please wait for a moment for the server to wake up from sleep**: 
-   - login with admin credentials [email: admin.test@larryne.com, password: test] to access and test the admin panel, upload files and edit.
-
 # Test The GraphQl Backend
+
 ## [GraphQL API Link](https://tamanji.jelastic.metropolia.fi/graphql)
 
 * You can test the API with Postman or preferably Firecamp, as it offers file uploads as well.
