@@ -1,6 +1,5 @@
 # LarryneMusic - Server
   
-# Description
 LarryneMelhMusic is GraphQl server powered application for Larrynizers, Larryne Melh fan base; those who enjoy the singer's music artistry, her fashion style, and her social interests. On this platform, fans can:
 
 * Visit the “Shop Page” where they can purchase her music records, fashion
